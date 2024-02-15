@@ -71,20 +71,21 @@ exports.createByFileEtudiantValidator = async (data) => {
     if (!isEmpty(item.codeG)) {
       throw new ApiError(`Group code required. Error in line '${i + 1}'`, 400);
     }
-    if (!isValidObjectId(item.codeG)) {
-      throw new ApiError(
-        `Invalid Group code id format. Error in line '${i + 1}'`,
-        400
-      );
-    }
+    // if (!isValidObjectId(item.codeG)) {
+    //   throw new ApiError(
+    //     `Invalid Group code id format. Error in line '${i + 1}'`,
+    //     400
+    //   );
+    // }
 
-    const groupe = await Groupe.findById(item.codeG);
+    const groupe = await Groupe.findOne({ codeG: item.codeG });
     if (!groupe) {
       throw new ApiError(
-        `No group found for this id: ${item.codeG}. Error in line '${i + 1}'`,
+        `No group found for this code: ${item.codeG}. Error in line '${i + 1}'`,
         404
       );
     }
+    item.codeG = groupe._id;
   }
 };
 

@@ -1,6 +1,6 @@
 const { check } = require("express-validator");
 const validatorMiddleware = require("../../middlewares/validatorMiddleware");
-const isStringAllSpaces = require("../isStringAllSpaces");
+const { isStringAllSpaces } = require("../customValidator");
 
 exports.createStageValidator = [
   check("codeS")
@@ -9,7 +9,7 @@ exports.createStageValidator = [
     .isLength({ min: 3 })
     .withMessage("Too short stage code")
     .isAlphanumeric()
-    .withMessage('Stage code must contain only letters and numbers')
+    .withMessage("Stage code must contain only letters and numbers")
     .custom((val) => {
       if (isStringAllSpaces(val)) {
         return Promise.reject(new Error("Stage code must not be all spaces"));
@@ -66,7 +66,7 @@ exports.updateStageValidator = [
     .isLength({ min: 3 })
     .withMessage("Too short stage code")
     .isAlphanumeric()
-    .withMessage('Stage code must contain only letters and numbers'),
+    .withMessage("Stage code must contain only letters and numbers"),
 
   check("type")
     .notEmpty()

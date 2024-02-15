@@ -1,7 +1,92 @@
 const { check } = require("express-validator");
 const validatorMiddleware = require("../../middlewares/validatorMiddleware");
-const isStringAllSpaces = require("../isStringAllSpaces");
+const {
+  isStringAllSpaces,
+  isEmpty,
+  isValidEmail,
+  isInteger,
+  containsOnlyLetters,
+  isValidTunisianPhoneNumber,
+  isValidObjectId,
+} = require("../customValidator");
 const Groupe = require("../../models/groupeModel");
+const ApiError = require("../apiError");
+
+exports.createByFileEtudiantValidator = async (data) => {
+  for (let i = 0; i < data.length; i++) {
+    const item = data[i];
+
+    for (let key of ["cin", "nom", "prenom", "email", "tel", "codeG"]) {
+      if (!(key in item)) {
+        throw new ApiError(
+          `All fields are required. Error in line '${i + 1}'`,
+          400
+        );
+      }
+    }
+
+    if (!isEmpty(item.cin)) {
+      throw new ApiError(`Cin required. Error in line '${i + 1}'`, 400);
+    }
+    if (!isInteger(item.cin) || item.cin.toString().length !== 8) {
+      throw new ApiError(
+        `Cin must be a valid 8-digit number. Error in line '${i + 1}'`,
+        400
+      );
+    }
+
+    if (!isEmpty(item.nom)) {
+      throw new ApiError(`Last name required. Error in line '${i + 1}'`, 400);
+    }
+    if (!containsOnlyLetters(item.nom) || isStringAllSpaces(item.nom)) {
+      throw new ApiError(`Invalid last name. Error in line '${i + 1}'`, 400);
+    }
+
+    if (!isEmpty(item.prenom)) {
+      throw new ApiError(`First name required. Error in line '${i + 1}'`, 400);
+    }
+    if (!containsOnlyLetters(item.prenom) || isStringAllSpaces(item.prenom)) {
+      throw new ApiError(`Invalid first name. Error in line '${i + 1}'`, 400);
+    }
+
+    if (!isEmpty(item.email)) {
+      throw new ApiError(`Email required. Error in line '${i + 1}'`, 400);
+    }
+    if (!isValidEmail(item.email)) {
+      throw new ApiError(`Invalid email. Error in line '${i + 1}'`, 400);
+    }
+
+    if (!isEmpty(item.tel)) {
+      throw new ApiError(
+        `Phone number required. Error in line '${i + 1}'`,
+        400
+      );
+    }
+    if (!isValidTunisianPhoneNumber(item.tel)) {
+      throw new ApiError(
+        `Invalid Tunisian phone number. Error in line '${i + 1}'`,
+        400
+      );
+    }
+    if (!isEmpty(item.codeG)) {
+      throw new ApiError(`Group code required. Error in line '${i + 1}'`, 400);
+    }
+    if (!isValidObjectId(item.codeG)) {
+      throw new ApiError(
+        `Invalid Group code id format. Error in line '${i + 1}'`,
+        400
+      );
+    }
+
+    const groupe = await Groupe.findById(item.codeG);
+    if (!groupe) {
+      throw new ApiError(
+        `No group found for this id: ${item.codeG}. Error in line '${i + 1}'`,
+        404
+      );
+    }
+  }
+};
 
 exports.createEtudiantValidator = [
   check("cin")
@@ -10,8 +95,7 @@ exports.createEtudiantValidator = [
     .isLength({ min: 8, max: 8 })
     .withMessage("Cin only 8 numbers required")
     .isInt()
-    .withMessage("Cin must be a number")
-,
+    .withMessage("Cin must be a number"),
 
   check("nom")
     .notEmpty()

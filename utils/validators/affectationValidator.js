@@ -1,6 +1,6 @@
 const { check } = require("express-validator");
 const validatorMiddleware = require("../../middlewares/validatorMiddleware");
-const isStringAllSpaces = require("../isStringAllSpaces");
+const { isStringAllSpaces } = require("../customValidator");
 const Etudiant = require("../../models/etudiantModel");
 const Stage = require("../../models/stageModel");
 
@@ -32,7 +32,9 @@ exports.createAffectationValidator = [
     .withMessage("Stage location required")
     .custom((val) => {
       if (isStringAllSpaces(val)) {
-        return Promise.reject(new Error("Stage location must not be all spaces"));
+        return Promise.reject(
+          new Error("Stage location must not be all spaces")
+        );
       }
       return true;
     }),
@@ -43,7 +45,7 @@ exports.createAffectationValidator = [
     .isLength({ min: 3 })
     .withMessage("Too short rapport code")
     .isAlphanumeric()
-    .withMessage('Rapport code must contain only letters and numbers')
+    .withMessage("Rapport code must contain only letters and numbers")
     .custom((val) => {
       if (isStringAllSpaces(val)) {
         return Promise.reject(new Error("Rapport code must not be all spaces"));
@@ -115,7 +117,9 @@ exports.updateAffectationValidator = [
     .withMessage("Stage location required")
     .custom((val) => {
       if (isStringAllSpaces(val)) {
-        return Promise.reject(new Error("Stage location must not be all spaces"));
+        return Promise.reject(
+          new Error("Stage location must not be all spaces")
+        );
       }
       return true;
     }),
@@ -126,7 +130,7 @@ exports.updateAffectationValidator = [
     .isLength({ min: 3 })
     .withMessage("Too short rapport code")
     .isAlphanumeric()
-    .withMessage('Rapport code must contain only letters and numbers')
+    .withMessage("Rapport code must contain only letters and numbers")
     .custom((val) => {
       if (isStringAllSpaces(val)) {
         return Promise.reject(new Error("Rapport code must not be all spaces"));

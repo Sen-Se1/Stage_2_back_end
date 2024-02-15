@@ -1,6 +1,6 @@
 const { check } = require("express-validator");
 const validatorMiddleware = require("../../middlewares/validatorMiddleware");
-const isStringAllSpaces = require("../isStringAllSpaces");
+const { isStringAllSpaces } = require("../customValidator");
 const Department = require("../../models/departmentModel");
 
 exports.createGroupeValidator = [
@@ -10,7 +10,7 @@ exports.createGroupeValidator = [
     .isLength({ min: 3 })
     .withMessage("Too short group code")
     .isAlphanumeric()
-    .withMessage('Group code must contain only letters and numbers')
+    .withMessage("Group code must contain only letters and numbers")
     .custom((val) => {
       if (isStringAllSpaces(val)) {
         return Promise.reject(new Error("Group code must not be all spaces"));
@@ -59,7 +59,7 @@ exports.updateGroupeValidator = [
     .isLength({ min: 3 })
     .withMessage("Too short group code")
     .isAlphanumeric()
-    .withMessage('Group code must contain only letters and numbers')
+    .withMessage("Group code must contain only letters and numbers")
     .custom((val) => {
       if (isStringAllSpaces(val)) {
         return Promise.reject(new Error("Group code must not be all spaces"));
@@ -76,7 +76,7 @@ exports.updateGroupeValidator = [
       }
       return true;
     }),
-    
+
   check("codeD")
     .isMongoId()
     .withMessage("Invalid department code id format")

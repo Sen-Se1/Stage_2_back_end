@@ -1,6 +1,6 @@
 const { check } = require("express-validator");
 const validatorMiddleware = require("../../middlewares/validatorMiddleware");
-const isStringAllSpaces = require("../isStringAllSpaces");
+const { isStringAllSpaces } = require("../customValidator");
 
 exports.addAdminModValidator = [
   check("username")
@@ -9,7 +9,7 @@ exports.addAdminModValidator = [
     .isLength({ min: 3 })
     .withMessage("Too short username")
     .isAlphanumeric()
-    .withMessage('Username must contain only letters and numbers')
+    .withMessage("Username must contain only letters and numbers")
     .custom((val) => {
       if (isStringAllSpaces(val)) {
         return Promise.reject(new Error("Username must not be all spaces"));
@@ -87,7 +87,7 @@ exports.updateAdminModValidator = [
     .isLength({ min: 3 })
     .withMessage("Too short username")
     .isAlphanumeric()
-    .withMessage('Username must contain only letters and numbers')
+    .withMessage("Username must contain only letters and numbers")
     .custom((val) => {
       if (isStringAllSpaces(val)) {
         return Promise.reject(new Error("Username must not be all spaces"));

@@ -1,6 +1,6 @@
 const { check } = require("express-validator");
 const validatorMiddleware = require("../../middlewares/validatorMiddleware");
-const isStringAllSpaces = require("../isStringAllSpaces");
+const { isStringAllSpaces } = require("../customValidator");
 
 exports.createDepartmentValidator = [
   check("codeD")
@@ -9,10 +9,12 @@ exports.createDepartmentValidator = [
     .isLength({ min: 2 })
     .withMessage("Too short department code")
     .isAlphanumeric()
-    .withMessage('Department code must contain only letters and numbers')
+    .withMessage("Department code must contain only letters and numbers")
     .custom((val) => {
       if (isStringAllSpaces(val)) {
-        return Promise.reject(new Error("Department code must not be all spaces"));
+        return Promise.reject(
+          new Error("Department code must not be all spaces")
+        );
       }
       return true;
     }),
@@ -22,7 +24,9 @@ exports.createDepartmentValidator = [
     .withMessage("Departemnt label required")
     .custom((val) => {
       if (isStringAllSpaces(val)) {
-        return Promise.reject(new Error("Departemnt label must not be all spaces"));
+        return Promise.reject(
+          new Error("Departemnt label must not be all spaces")
+        );
       }
       return true;
     }),
@@ -45,10 +49,12 @@ exports.updateDepartmentValidator = [
     .isLength({ min: 2 })
     .withMessage("Too short department code")
     .isAlphanumeric()
-    .withMessage('Department code must contain only letters and numbers')
+    .withMessage("Department code must contain only letters and numbers")
     .custom((val) => {
       if (isStringAllSpaces(val)) {
-        return Promise.reject(new Error("Department code must not be all spaces"));
+        return Promise.reject(
+          new Error("Department code must not be all spaces")
+        );
       }
       return true;
     }),
@@ -58,11 +64,13 @@ exports.updateDepartmentValidator = [
     .withMessage("Departemnt label required")
     .custom((val) => {
       if (isStringAllSpaces(val)) {
-        return Promise.reject(new Error("Departemnt label must not be all spaces"));
+        return Promise.reject(
+          new Error("Departemnt label must not be all spaces")
+        );
       }
       return true;
     }),
-    
+
   validatorMiddleware,
 ];
 

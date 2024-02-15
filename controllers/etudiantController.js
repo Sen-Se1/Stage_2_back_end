@@ -41,7 +41,7 @@ exports.createByFileEtudiant = asyncHandler(async (req, res, next) => {
     if (error.code === 11000) {
       return next(new ApiError(error.writeErrors[0].err.errmsg, 500));
     }
-    res.status(500).json(error);
+    next(new ApiError(error, 500));
   }
 });
 

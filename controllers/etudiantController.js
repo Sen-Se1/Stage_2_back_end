@@ -4,7 +4,7 @@ const { excelData } = require("../middlewares/excelToJsonMiddleware");
 const {
   createByFileEtudiantValidator,
 } = require("../utils/validators/etudiantValidator");
-const fs = require("fs-extra");
+const fs = require("fs");
 const Etudiant = require("../models/etudiantModel");
 
 // @desc    Create specific etudiant
@@ -32,7 +32,7 @@ exports.createByFileEtudiant = asyncHandler(async (req, res, next) => {
   const filePath = "uploads/" + req.file.filename;
 
   const data = excelData(filePath);
-  await fs.remove(filePath);
+  await fs.unlinkSync(filePath);
   await createByFileEtudiantValidator(data);
   try {
     const etudiant = await Etudiant.insertMany(data);

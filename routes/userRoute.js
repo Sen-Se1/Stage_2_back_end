@@ -11,6 +11,8 @@ const { protect, isProfileOwner } = require("../middlewares/authMiddleware");
 const {
   login,
   register,
+  forgotPassword,
+  resetPassword,
   getProfile,
   updateProfile,
   updateProfilePwd,
@@ -18,6 +20,8 @@ const {
 
 router.post("/login", loginValidator, login);
 router.post("/register", registerValidator, register);
+router.post('/forgotPassword', forgotPassword);
+// router.put('/resetPassword', resetPassword);
 
 // only login user is allowed
 router.get(

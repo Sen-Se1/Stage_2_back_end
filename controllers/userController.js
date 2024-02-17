@@ -1,5 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const bcrypt = require("bcryptjs");
+const crypto = require("crypto");
+const sendEmail = require("../utils/sendEmail");
 const createToken = require("../utils/createToken");
 const ApiError = require("../utils/apiError");
 const User = require("../models/userModel");
@@ -48,6 +50,50 @@ exports.login = asyncHandler(async (req, res, next) => {
 
   // 5) send response to client side
   res.status(200).json({ data: user, token });
+});
+
+// @desc    Forgot password
+// @route   POST /user/forgotPassword
+// @access  Public
+exports.forgotPassword = asyncHandler(async (req, res, next) => {
+  // 1) Get user by email
+  const user = await User.findOne({ email: req.body.email });
+  if (!user) {
+    return next(
+      new ApiError(`There is no user with that email: ${req.body.email}`, 404)
+    );
+  }
+  // 2) If user exist, Generate hash token and save it in db
+  const resetToken = crypto.randomBytes(32).toString('hex');
+  const hashedResetToken = crypto.createHash('sha256').update(resetToken).digest('hex');
+
+  // Save hashed password reset token into db
+  user.passwordResetToken = hashedResetToken;
+  // Add expiration time for password reset Token (5 min)
+  user.passwordResetTokenExpires = Date.now() + 5 * 60 * 1000;
+
+  await user.save();
+
+  // 3) Send the reset code via email
+  const resetUrl = `${req.protocol}://${req.get('host')}:${req.get('host')}/user/resetPassword/${resetToken}`;
+  const message = `<h4>Hi ${user.username}</h4>We received a request to reset the password on your Admin Dashboard Account. 
+                  Please use the below link to reset your password <br><a href='${resetUrl}'>Your link</a><br>
+                  This reset password link will be valid only for 5 minutes. <br> Thanks for helping us keep your account secure.`;
+  try {
+    await sendEmail({
+      email: user.email,
+      subject: 'Your password reset code (valid for 5 min)',
+      message,
+    });
+  } catch (err) {
+    user.passwordResetToken = undefined;
+    user.passwordResetTokenExpires = undefined;
+
+    await user.save();
+    return next(new ApiError('There is an error in sending email', 500));
+  }
+
+  res.status(200).json({message: 'Password reset link send to your email' });
 });
 
 // @desc    Get specific profile

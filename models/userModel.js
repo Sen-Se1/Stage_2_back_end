@@ -23,8 +23,8 @@ const userSchema = new mongoose.Schema(
     role: {
       type: String,
       required: [true, 'Role required'],
-      minlength: [5, 'Too short role'],
-      maxlength: [9, 'Too long role'],
+      enum: ['ADMIN', 'MODERATOR'],
+      default: 'MODERATOR',
       trim: true,
     }
   },

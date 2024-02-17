@@ -93,7 +93,38 @@ exports.forgotPassword = asyncHandler(async (req, res, next) => {
     return next(new ApiError('There is an error in sending email', 500));
   }
 
-  res.status(200).json({message: 'Password reset link send to your email' });
+  res.status(200).json({ message: 'Password reset link send to your email' });
+});
+
+// @desc    Reset password
+// @route   POST /user/resetPassword/:token
+// @access  Public
+exports.resetPassword = asyncHandler(async (req, res, next) => {
+  // 1) Get user based on reset token
+  const hashedResetToken = crypto.createHash('sha256').update(req.params.token).digest('hex');
+
+  const user = await User.findOne({
+    passwordResetToken: hashedResetToken,
+    passwordResetTokenExpires: { $gt: Date.now() },
+  });
+
+  if (!user) {
+    return next(new ApiError('Token is invalid or has expired', 400));
+  }
+  // 2) hash password
+  const salt = await bcrypt.genSalt(10);
+  const hashedPassword = await bcrypt.hash(req.body.password, salt);
+
+  user.password = hashedPassword;
+  user.passwordChangedAt = Date.now(); 
+  user.passwordResetToken = undefined;
+  user.passwordResetTokenExpires = undefined;
+
+  await user.save();
+
+  // 3) if everything is ok, generate token
+  const token = createToken(user._id);
+  res.status(200).json({ token });
 });
 
 // @desc    Get specific profile

@@ -3,6 +3,7 @@ const router = express.Router();
 const {
   loginValidator,
   registerValidator,
+  resetPasswordValidator,
   getProfileValidator,
   updateProfileValidator,
   updateProfilePwdValidator,
@@ -21,7 +22,7 @@ const {
 router.post("/login", loginValidator, login);
 router.post("/register", registerValidator, register);
 router.post('/forgotPassword', forgotPassword);
-// router.put('/resetPassword', resetPassword);
+router.put('/resetPassword/:token', resetPasswordValidator, resetPassword);
 
 // only login user is allowed
 router.get(

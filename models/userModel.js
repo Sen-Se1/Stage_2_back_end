@@ -22,7 +22,6 @@ const userSchema = new mongoose.Schema(
     passwordChangedAt: Date,
     passwordResetToken: String,
     passwordResetTokenExpires: Date,
-    passwordResetTokenVerified: Boolean,
     role: {
       type: String,
       required: [true, 'Role required'],

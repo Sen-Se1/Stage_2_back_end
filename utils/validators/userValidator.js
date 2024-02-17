@@ -96,6 +96,36 @@ exports.loginValidator = [
   validatorMiddleware,
 ];
 
+exports.resetPasswordValidator = [
+
+  check("password")
+    .notEmpty()
+    .withMessage("You must enter new password")
+    .isStrongPassword({
+      // minLength: 8,
+      minLowercase: 1,
+      minUppercase: 1,
+      minNumbers: 1,
+      minSymbols: 1,
+    })
+    .withMessage(
+      "The new password is not strong, and must contain 'one lowercase letter, one uppercase letter, one number, and one symbol'"
+    ),
+
+  check("passwordConfirm")
+    .notEmpty()
+    .withMessage("You must enter the password confirmation")
+    .custom(async (val, { req }) => {
+      // 1) Verify password confirm
+      if (val !== req.body.password) {
+        throw new Error("Password Confirmation incorrect");
+      }
+      return true;
+    }),
+
+  validatorMiddleware,
+];
+
 exports.getProfileValidator = [
   check("id").isMongoId().withMessage("Invalid profile id format"),
 

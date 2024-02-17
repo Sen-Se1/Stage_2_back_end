@@ -11,7 +11,6 @@ const { xss } = require("express-xss-sanitizer");
 const ApiError = require("./utils/apiError");
 const globalError = require("./middlewares/errorMiddleware");
 const dbConnection = require("./config/db");
-// const sendEmail = require('./utils/sendEmail')
 
 // Routes
 const mountRoutes = require("./routes");
@@ -21,18 +20,6 @@ dbConnection();
 
 // express app
 const app = express();
-
-// // 3) Send the reset code via email
-// const message = `<h1>Hi SenSe1</h1>,\n We received  `;
-// try {
-//   sendEmail({
-//     email: "mbarkihoussem99@gmail.com",
-//     subject: "Test nodemailer",
-//     message,
-//   });
-// } catch (err) {
-//   console.log(err);
-// }
 
 // Enable other domains to access your application
 app.use(cors());
@@ -59,7 +46,7 @@ app.use(xss());
 // Limit each IP to 100 requests per `window` (here, per 15 minutes)
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // Corrected to allow 100 requests per 15 minutes
+  max: 4, // Corrected to allow 100 requests per 15 minutes
   message: {
     message:
       "Too many requests from this IP, please try again after an hour",
@@ -67,7 +54,7 @@ const limiter = rateLimit({
 });
 
 // Apply the rate limiting middleware to all requests
-app.use("/", limiter);
+app.use("/user/forgotPassword", limiter);
 
 // Mount Routes
 mountRoutes(app);

@@ -76,7 +76,7 @@ exports.createByFileEtudiantValidator = async (data) => {
     // Validate Tunisian phone number format
     if (!isValidTunisianPhoneNumber(item.tel)) {
       throw new ApiError(
-        `Invalid Tunisian phone number. Error in line '${i + 1}'`,
+        `Invalid phone number only accepted Tunisia phone numbers. Error in line '${i + 1}'`,
         400
       );
     }
@@ -107,8 +107,13 @@ exports.createByFileEtudiantValidator = async (data) => {
     //     400
     //   );
     // }
+  }
 
-  // Check for existing student with the same CIN
+  // Check for existing students and group code outside the loop
+  for (let i = 0; i < data.length; i++) {
+    const item = data[i];
+
+    // Check for existing student with the same CIN
     const etudiantCin = await Etudiant.findOne({ cin: item.cin });
     if (etudiantCin) {
       throw new ApiError(

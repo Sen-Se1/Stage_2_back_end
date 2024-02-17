@@ -139,6 +139,7 @@ exports.createByFileEtudiantValidator = async (data) => {
         404
       );
     }
+    
     item.codeG = groupe._id;
   }
 };

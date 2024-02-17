@@ -34,15 +34,9 @@ exports.createByFileEtudiant = asyncHandler(async (req, res, next) => {
   const data = excelData(filePath);
   await fs.unlinkSync(filePath);
   await createByFileEtudiantValidator(data);
-  try {
-    const etudiant = await Etudiant.insertMany(data);
-    res.status(201).json({ data: etudiant });
-  } catch (error) {
-    if (error.code === 11000) {
-      return next(new ApiError(error.writeErrors[0].err.errmsg, 500));
-    }
-    next(new ApiError(error.message, 500));
-  }
+
+  const etudiant = await Etudiant.insertMany(data);
+  res.status(201).json({ data: etudiant });
 });
 
 // @desc    Get list of etudiant

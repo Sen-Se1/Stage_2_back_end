@@ -89,9 +89,7 @@ exports.loginValidator = [
 
   check("password")
     .notEmpty()
-    .withMessage("Password required")
-    .isLength({ min: 8 })
-    .withMessage("Password must be at least 8 characters"),
+    .withMessage("Password required"),
 
   validatorMiddleware,
 ];
@@ -101,6 +99,8 @@ exports.resetPasswordValidator = [
   check("password")
     .notEmpty()
     .withMessage("You must enter new password")
+    .isLength({ min: 8 })
+    .withMessage("Password must be at least 8 characters")
     .isStrongPassword({
       // minLength: 8,
       minLowercase: 1,
@@ -164,7 +164,7 @@ exports.updateProfileValidator = [
         throw new Error(`There is no profile for this id : ${req.params.id}`);
       }
       const isCorrectPassword = await bcrypt.compare(
-        req.body.password,
+        val,
         user.password
       );
       if (!isCorrectPassword) {
@@ -186,6 +186,8 @@ exports.updateProfilePwdValidator = [
   check("password")
     .notEmpty()
     .withMessage("You must enter new password")
+    .isLength({ min: 8 })
+    .withMessage("New password must be at least 8 characters")
     .isStrongPassword({
       // minLength: 8,
       minLowercase: 1,

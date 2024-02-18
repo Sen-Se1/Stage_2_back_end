@@ -123,9 +123,7 @@ exports.resetPassword = asyncHandler(async (req, res, next) => {
 
   await user.save();
 
-  // 3) if everything is ok, generate token
-  const token = createToken(user._id);
-  res.status(200).json({ token });
+  res.status(200).json({ message: 'Your password has been reset successfully' });
 });
 
 // @desc    Get specific profile

@@ -75,7 +75,8 @@ exports.forgotPassword = asyncHandler(async (req, res, next) => {
   await user.save();
 
   // 3) Send the reset code via email
-  const resetUrl = `${req.protocol}://${req.get('host')}:4200/reset-password/${resetToken}`;
+  // const resetUrl = `${req.protocol}://${req.get('host')}/user/resetPassword/${resetToken}`;
+    const resetUrl = `${req.protocol}://localhost:4200/reset-password/${resetToken}`;
   const message = `<h4>Hi ${user.username}</h4>We received a request to reset the password on your Admin Dashboard Account. 
                   Please use the below link to reset your password <br><a href='${resetUrl}'>Your link</a><br>
                   This reset password link will be valid only for 5 minutes. <br> Thanks for helping us keep your account secure.`;

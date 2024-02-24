@@ -6,7 +6,7 @@ const {
   updateStageValidator,
   deleteStageValidator,
 } = require("../utils/validators/stageValidator");
-const { protect } = require("../middlewares/authMiddleware");
+const { protect, allowedTo } = require("../middlewares/authMiddleware");
 const {
   createStage,
   getAllStage,
@@ -16,10 +16,10 @@ const {
 } = require("../controllers/stageController");
 
 // only login admin is allowed
-router.post("/", protect, createStageValidator, createStage);
+router.post("/", protect, allowedTo("ADMIN"), createStageValidator, createStage);
 router.get("/", protect, getAllStage);
-router.get("/:id", protect, getByIdStageValidator, getByIdStage);
-router.put("/:id", protect, updateStageValidator, updateStage);
-router.delete("/:id", protect, deleteStageValidator, deleteStage);
+router.get("/:id", protect, allowedTo("ADMIN"), getByIdStageValidator, getByIdStage);
+router.put("/:id", protect, allowedTo("ADMIN"), updateStageValidator, updateStage);
+router.delete("/:id", protect, allowedTo("ADMIN"), deleteStageValidator, deleteStage);
 
 module.exports = router;

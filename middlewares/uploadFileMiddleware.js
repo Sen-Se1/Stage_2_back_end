@@ -10,7 +10,7 @@ const fileFilter = (req, file, cb) => {
     if (file.mimetype === 'application/vnd.ms-excel' || file.mimetype === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') {
         cb(null, true);
     } else {
-        cb(new ApiError('Invalid file type. Only Excel files are allowed.', 400), false);
+        cb(new ApiError('Type de fichier invalide. Seuls les fichiers Excel sont autorisés.', 400), false);
     }
 };
 

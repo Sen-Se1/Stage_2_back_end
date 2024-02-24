@@ -55,7 +55,7 @@ exports.getByIdAdminMod = asyncHandler(async (req, res, next) => {
   const admin = await Admin.findOne({ _id: id });
 
   if (!admin) {
-    return next(new ApiError(`No admin or moderator for this id : ${id}`, 404));
+    return next(new ApiError(`Aucun administrateur ou modérateur pour cet identifiant : ${id}`, 404));
   }
 
   // Delete password from response
@@ -83,7 +83,7 @@ exports.updateAdminMod = asyncHandler(async (req, res, next) => {
 
   if (!admin) {
     return next(
-      new ApiError(`No admin or moderator for this this id : ${id}`, 404)
+      new ApiError(`Aucun administrateur ou modérateur pour cet identifiant : ${id}`, 404)
     );
   }
   // Delete password from response
@@ -113,7 +113,7 @@ exports.updateAdminModPwd = asyncHandler(async (req, res, next) => {
 
   if (!admin) {
     return next(
-      new ApiError(`No admin or moderator for this this id : ${id}`, 404)
+      new ApiError(`Aucun administrateur ou modérateur pour cet identifiant : ${id}`, 404)
     );
   }
   // Delete password from response
@@ -133,7 +133,7 @@ exports.deleteAdminMod = asyncHandler(async (req, res, next) => {
 
   if (!admin) {
     return next(
-      new ApiError(`No admin or moderator for this this id : ${id}`, 404)
+      new ApiError(`Aucun administrateur ou modérateur pour cet identifiant : ${id}`, 404)
     );
   }
 

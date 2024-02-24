@@ -35,7 +35,7 @@ exports.getByIdGroupe = asyncHandler(async (req, res, next) => {
     const groupe = await Groupe.findOne({ _id: id }).populate('codeD', 'codeD libelle');
 
     if (!groupe) {
-        return next(new ApiError(`No group for this id : ${id}`, 404));
+        return next(new ApiError(`Aucun groupe pour cet identifiant : ${id}`, 404));
     }
     res.status(200).json({ data: groupe });
 });
@@ -54,7 +54,7 @@ exports.updateGroupe = asyncHandler(async (req, res, next) => {
     const groupe = await Groupe.findOneAndUpdate({ _id: id }, newData, { new: true });
 
     if (!groupe) {
-        return next(new ApiError(`No group for this this id : ${id}`, 404));
+        return next(new ApiError(`Aucun groupe pour cet identifiant : ${id}`, 404));
     }
 
     res.status(200).json({ data: groupe });
@@ -69,7 +69,7 @@ exports.deleteGroupe = asyncHandler(async (req, res, next) => {
     const groupe = await Groupe.findOneAndDelete({ _id: id });
 
     if (!groupe) {
-        return next(new ApiError(`No group for this this id : ${id}`, 404));
+        return next(new ApiError(`Aucun groupe pour cet identifiant : ${id}`, 404));
     }
     
     res.status(204).send();

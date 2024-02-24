@@ -37,7 +37,7 @@ exports.getByIdAffectation = asyncHandler(async (req, res, next) => {
     const affectation = await Affectation.findOne({ _id: id }).populate('cin', 'cin').populate('codeS', 'codeS');
 
     if (!affectation) {
-        return next(new ApiError(`No assignment for this id : ${id}`, 404));
+        return next(new ApiError(`Aucune affectation pour cet identifiant : ${id}`, 404));
     }
     res.status(200).json({ data: affectation });
 });
@@ -59,7 +59,7 @@ exports.updateAffectation = asyncHandler(async (req, res, next) => {
     const affectation = await Affectation.findOneAndUpdate({ _id: id }, newData, { new: true });
 
     if (!affectation) {
-        return next(new ApiError(`No assignment for this this id : ${id}`, 404));
+        return next(new ApiError(`Aucune affectation pour cet identifiant : ${id}`, 404));
     }
 
     res.status(200).json({ data: affectation });
@@ -74,7 +74,7 @@ exports.deleteAffectation = asyncHandler(async (req, res, next) => {
     const affectation = await Affectation.findOneAndDelete({ _id: id });
 
     if (!affectation) {
-        return next(new ApiError(`No assignment for this this id : ${id}`, 404));
+        return next(new ApiError(`Aucune affectation pour cet identifiant : ${id}`, 404));
     }
 
     res.status(204).send();

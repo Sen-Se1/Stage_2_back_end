@@ -6,32 +6,32 @@ const affectationSchema = new mongoose.Schema(
     cin: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Etudiant", // Reference to Edudiant collection
-      required: [true, 'Cin required'],
+      required: [true, 'Cin est obligatoire.'],
     },
     codeS: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Stage", // Reference to Stage collection
-      required: [true, 'Stage code required'],
+      required: [true, "Le code de stage est obligatoire."],
     },
     lieuS: {
       type: String,
-      required: [true, 'Stage location required'],
+      required: [true, 'Le lieu de stage est obligatoire.'],
       trim: true,
     },
     codeRap: {
       type: String,
-      required: [true, 'Rapport code required'],
-      minlength: [3, 'Too short rapport code'],
-      unique: [true, 'Rapport code must be unique'],
+      required: [true, 'Le code de rapport est obligatoire.'],
+      minlength: [3, 'Le code de rapport trop court.'],
+      unique: [true, 'Le code de rapport doit être unique.'],
       trim: true,
     },
     dateD: {
       type: Date,
-      required: [true, 'Start date required'],
+      required: [true, 'La date de début est obligatoire.'],
     },
     dateF: {
       type: Date,
-      required: [true, 'End date required'],
+      required: [true, 'La date de fin est obligatoire.'],
     },
   },
   {

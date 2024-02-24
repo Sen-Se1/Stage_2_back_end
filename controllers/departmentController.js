@@ -34,7 +34,7 @@ exports.getByIdDepartment = asyncHandler(async (req, res, next) => {
     const department = await Department.findOne({ _id: id });
 
     if (!department) {
-        return next(new ApiError(`No department for this id : ${id}`, 404));
+        return next(new ApiError(`Aucun département pour cet identifiant : ${id}`, 404));
     }
     res.status(200).json({ data: department });
 });
@@ -52,7 +52,7 @@ exports.updateDepartment = asyncHandler(async (req, res, next) => {
     const department = await Department.findOneAndUpdate({ _id: id }, newData, { new: true });
 
     if (!department) {
-        return next(new ApiError(`No department for this this id : ${id}`, 404));
+        return next(new ApiError(`Aucun département pour cet identifiant : ${id}`, 404));
     }
 
     res.status(200).json({ data: department });
@@ -67,7 +67,7 @@ exports.deleteDepartment = asyncHandler(async (req, res, next) => {
     const department = await Department.findOneAndDelete({ _id: id });
 
     if (!department) {
-        return next(new ApiError(`No department for this this id : ${id}`, 404));
+        return next(new ApiError(`Aucun département pour cet identifiant : ${id}`, 404));
     }
 
     res.status(204).send();

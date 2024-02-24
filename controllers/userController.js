@@ -40,7 +40,7 @@ exports.login = asyncHandler(async (req, res, next) => {
   const user = await User.findOne({ email: req.body.email });
 
   if (!user || !(await bcrypt.compare(req.body.password, user.password))) {
-    return next(new ApiError("Incorrect email or password", 401));
+    return next(new ApiError("email ou mot de passe incorrect", 401));
   }
   // 3) generate token
   const token = createToken(user._id);
@@ -60,7 +60,7 @@ exports.forgotPassword = asyncHandler(async (req, res, next) => {
   const user = await User.findOne({ email: req.body.email });
   if (!user) {
     return next(
-      new ApiError(`There is no user with that email: ${req.body.email}`, 404)
+      new ApiError(`Il n'y a aucun utilisateur avec cette adresse e-mail: ${req.body.email}`, 404)
     );
   }
   // 2) If user exist, Generate hash token and save it in db
@@ -76,14 +76,14 @@ exports.forgotPassword = asyncHandler(async (req, res, next) => {
 
   // 3) Send the reset code via email
   // const resetUrl = `${req.protocol}://${req.get('host')}/user/resetPassword/${resetToken}`;
-    const resetUrl = `${req.protocol}://localhost:4200/reset-password/${resetToken}`;
-  const message = `<h4>Hi ${user.username}</h4>We received a request to reset the password on your Admin Dashboard Account. 
-                  Please use the below link to reset your password <br><a href='${resetUrl}'>Your link</a><br>
-                  This reset password link will be valid only for 5 minutes. <br> Thanks for helping us keep your account secure.`;
+  const resetUrl = `${req.protocol}://localhost:4200/reset-password/${resetToken}`;
+  const message = `<h4>Salut ${user.username}</h4>Nous avons reçu une demande de réinitialisation du mot de passe de votre compte du tableau de bord d'administration. 
+                  Veuillez utiliser le lien ci-dessous pour réinitialiser votre mot de passe <br><a href='${resetUrl}'>Votre lien</a><br>
+                  Ce lien de réinitialisation du mot de passe ne sera valide que pendant 5 minutes. <br> Merci de nous aider à sécuriser votre compte.`;
   try {
     await sendEmail({
       email: user.email,
-      subject: 'Your password reset code (valid for 5 min)',
+      subject: 'Votre code de réinitialisation de mot de passe (valable 5 min)',
       message,
     });
   } catch (err) {
@@ -91,10 +91,10 @@ exports.forgotPassword = asyncHandler(async (req, res, next) => {
     user.passwordResetTokenExpires = undefined;
 
     await user.save();
-    return next(new ApiError('There is an error in sending email', 500));
+    return next(new ApiError("Il y a une erreur lors de l'envoi de l'e-mail", 500));
   }
 
-  res.status(200).json({ message: 'Password reset link send to your email' });
+  res.status(200).json({ message: 'Lien de réinitialisation du mot de passe envoyé à votre adresse e-mail' });
 });
 
 // @desc    Reset password
@@ -110,7 +110,7 @@ exports.resetPassword = asyncHandler(async (req, res, next) => {
   });
 
   if (!user) {
-    return next(new ApiError('Token is invalid or has expired', 400));
+    return next(new ApiError("Le jeton n'est pas valide ou a expiré", 400));
   }
   // 2) hash password
   const salt = await bcrypt.genSalt(10);
@@ -123,7 +123,7 @@ exports.resetPassword = asyncHandler(async (req, res, next) => {
 
   await user.save();
 
-  res.status(200).json({ message: 'Your password has been reset successfully' });
+  res.status(200).json({ message: 'Votre mot de passe a été réinitialisé avec succès' });
 });
 
 // @desc    Get specific profile
@@ -135,7 +135,7 @@ exports.getProfile = asyncHandler(async (req, res, next) => {
   // Build and Execute query
   const profile = await User.findOne({ _id: id });
   if (!profile) {
-    return next(new ApiError(`No profile for this id : ${id}`, 404));
+    return next(new ApiError(`Aucun profil pour cet identifiant : ${id}`, 404));
   }
   // 4) Delete password from response
   delete profile._doc.password;
@@ -159,7 +159,7 @@ exports.updateProfile = asyncHandler(async (req, res, next) => {
   });
 
   if (!user) {
-    return next(new ApiError(`No profile for this this id : ${id}`, 404));
+    return next(new ApiError(`Aucun profil pour cet identifiant : ${id}`, 404));
   }
   // Delete password from response
   delete user._doc.password;
@@ -187,7 +187,7 @@ exports.updateProfilePwd = asyncHandler(async (req, res, next) => {
   });
 
   if (!user) {
-    return next(new ApiError(`No profile for this this id : ${id}`, 404));
+    return next(new ApiError(`Aucun profil pour cet identifiant : ${id}`, 404));
   }
 
   // 2) Generate token

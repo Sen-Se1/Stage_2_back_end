@@ -43,13 +43,13 @@ if (process.env.NODE_ENV === "development") {
 app.use(mongoSanitize());
 app.use(xss());
 
-// Limit each IP to 100 requests per `window` (here, per 15 minutes)
+// Limit each IP to 4 requests per `window` (here, per 15 minutes)
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 4, // Corrected to allow 100 requests per 15 minutes
+  max: 4, // Corrected to allow 4 requests per 15 minutes
   message: {
     message:
-      "Too many requests from this IP, please try again after an hour",
+      "Trop de demandes provenant de cette adresse IP, veuillez réessayer après une heure.",
   },
 });
 
@@ -60,7 +60,7 @@ app.use("/user/forgotPassword", limiter);
 mountRoutes(app);
 
 app.all("*", (req, res, next) => {
-  next(new ApiError(`Can't find this route: ${req.originalUrl}`, 400));
+  next(new ApiError(`Je ne trouve pas cet itinéraire: ${req.originalUrl}`, 400));
 });
 
 // Global error handling middleware for express
@@ -68,14 +68,14 @@ app.use(globalError);
 
 const PORT = process.env.PORT || 8000;
 const server = app.listen(PORT, () => {
-  console.log(`App running on port ${PORT}`);
+  console.log(`Application exécutée sur le port ${PORT}`);
 });
 
 // Handle rejection outside express
 process.on("unhandledRejection", (err) => {
   console.error(`UnhandledRejection Errors: ${err.name} | ${err.message}`);
   server.close(() => {
-    console.error(`Shutting down....`);
+    console.error(`Éteindre....`);
     process.exit(1);
   });
 });

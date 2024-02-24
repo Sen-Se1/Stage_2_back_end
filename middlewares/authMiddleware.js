@@ -13,7 +13,7 @@ exports.protect = asyncHandler(async (req, res, next) => {
   if (!token) {
     return next(
       new ApiError(
-        "You are not login, Please login to get access this route",
+        "Vous n'êtes pas connecté, veuillez vous connecter pour accéder à cet itinéraire.",
         401
       )
     );
@@ -25,7 +25,7 @@ exports.protect = asyncHandler(async (req, res, next) => {
   if (!currentUser) {
     return next(
       new ApiError(
-        "The user that belong to this token does no longer exist",
+        "L'utilisateur appartenant à ce token n'existe plus.",
         401
       )
     );
@@ -40,7 +40,7 @@ exports.protect = asyncHandler(async (req, res, next) => {
     if (passChangedTimestamp > decoded.iat) {
       return next(
         new ApiError(
-          'User recently changed his password. please login again..',
+          "L'utilisateur a récemment modifié son mot de passe. veuillez vous reconnecter.",
           401
         )
       );
@@ -67,7 +67,7 @@ exports.isProfileOwner = asyncHandler((req, res, next) => {
     // User is not the owner, return an error response
     return next(
       new ApiError(
-        "You are not authorized to view and edit a profile that you do not own",
+        "Vous n'êtes pas autorisé à afficher et modifier un profil dont vous n'êtes pas propriétaire.",
         403
       )
     );
@@ -82,7 +82,7 @@ exports.allowedTo = (...roles) =>
     // 2) access registered user (req.user.role)
     if (!roles.includes(req.user.role)) {
       return next(
-        new ApiError("You are not allowed to access this route", 403)
+        new ApiError("Vous n'êtes pas autorisé à accéder à cet itinéraire.", 403)
       );
     }
     next();
@@ -96,13 +96,13 @@ exports.checkCurrentlyAdmin = asyncHandler(async (req, res, next) => {
 
   if (!adminCurrently) {
     return next(
-      new ApiError(`No moderator for this this id : ${id}`, 404)
+      new ApiError(`Pas de modérateur pour cet identifiant : ${id}`, 404)
     );
   }
   if (adminCurrently._id.toString() == req.user._id.toString()) {
     return next(
       new ApiError(
-        "You are not allowed to get, updated, or deleted your profile and password in this route",
+        "Vous n'êtes pas autorisé à obtenir, mettre à jour ou supprimer votre profil et votre mot de passe sur cet itinéraire.",
         403
       )
     );
@@ -110,7 +110,7 @@ exports.checkCurrentlyAdmin = asyncHandler(async (req, res, next) => {
   if (adminCurrently.role === "ADMIN") {
     return next(
       new ApiError(
-        "You are not allowed to get, updated, or deleted any admin in this route",
+        "Vous n'êtes pas autorisé à obtenir, mettre à jour ou supprimer un administrateur sur cette route.",
         403
       )
     );

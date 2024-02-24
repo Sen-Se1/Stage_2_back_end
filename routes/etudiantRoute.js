@@ -6,7 +6,7 @@ const {
   updateEtudiantValidator,
   deleteEtudiantValidator,
 } = require("../utils/validators/etudiantValidator");
-const { protect } = require("../middlewares/authMiddleware");
+const { protect, allowedTo } = require("../middlewares/authMiddleware");
 const { upload } = require('../middlewares/uploadFileMiddleware');
 const {
   createEtudiant,
@@ -18,12 +18,12 @@ const {
 } = require("../controllers/etudiantController");
 
 // only login admin is allowed
-router.post("/", protect, createEtudiantValidator, createEtudiant);
-router.post("/file", protect, upload, createByFileEtudiant);
+router.post("/", protect, allowedTo("ADMIN"), createEtudiantValidator, createEtudiant);
+router.post("/file", protect, allowedTo("ADMIN"), upload, createByFileEtudiant);
 router.get("/", protect, getAllEtudiant);
-router.get("/:id", protect, getByIdEtudiantValidator, getByIdEtudiant);
-router.put("/:id", protect, updateEtudiantValidator, updateEtudiant);
-router.delete("/:id", protect, deleteEtudiantValidator, deleteEtudiant);
+router.get("/:id", protect, allowedTo("ADMIN"), getByIdEtudiantValidator, getByIdEtudiant);
+router.put("/:id", protect, allowedTo("ADMIN"), updateEtudiantValidator, updateEtudiant);
+router.delete("/:id", protect, allowedTo("ADMIN"), deleteEtudiantValidator, deleteEtudiant);
 
 
 

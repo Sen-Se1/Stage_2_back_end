@@ -9,14 +9,14 @@ const departmentSchema = new mongoose.Schema(
   {
     codeD: {
       type: String,
-      required: [true, "Department code required"],
-      minlength: [2, "Too short department code"],
-      unique: [true, "Department code must be unique"],
+      required: [true, "Le code de département est obligatoire."],
+      minlength: [2, "Le code de département trop court."],
+      unique: [true, "Le code de département doit être unique."],
       trim: true,
     },
     libelle: {
       type: String,
-      required: [true, "Departemnt label required"],
+      required: [true, "La libelle de département est obligatoire."],
       trim: true,
     },
   },

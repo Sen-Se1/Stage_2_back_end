@@ -7,18 +7,18 @@ const stageSchema = new mongoose.Schema(
   {
     codeS: {
       type: String,
-      unique: [true, 'Stage code must be unique'],
-      required: [true, 'Stage code required'],
-      minlength: [3, 'Too short stage code'],
+      unique: [true, 'Le code de stage doit être unique.'],
+      required: [true, 'Le code de stage est obligatoire.'],
+      minlength: [3, 'Le code de stage trop court'],
       trim: true,
     },
     type: {
       type: String,
-      required: [true, 'Stage type required'],
+      required: [true, 'Le type de stage est obligatoire.'],
     },
     duree: {
       type: Number,
-      required: [true, 'Stage duration required'],
+      required: [true, 'La durée de stage est obligatoire.'],
     },
   },
   {

@@ -35,7 +35,7 @@ exports.getByIdStage = asyncHandler(async (req, res, next) => {
     const stage = await Stage.findOne({ _id: id });
 
     if (!stage) {
-        return next(new ApiError(`No stage for this id : ${id}`, 404));
+        return next(new ApiError(`Aucune stage pour cet identifiant : ${id}`, 404));
     }
     res.status(200).json({ data: stage });
 });
@@ -54,7 +54,7 @@ exports.updateStage = asyncHandler(async (req, res, next) => {
     const stage = await Stage.findOneAndUpdate({ _id: id }, newData, { new: true });
 
     if (!stage) {
-        return next(new ApiError(`No stage for this this id : ${id}`, 404));
+        return next(new ApiError(`Aucune stage pour cet identifiant : ${id}`, 404));
     }
 
     res.status(200).json({ data: stage });
@@ -69,7 +69,7 @@ exports.deleteStage = asyncHandler(async (req, res, next) => {
     const stage = await Stage.findOneAndDelete({ _id: id });
 
     if (!stage) {
-        return next(new ApiError(`No stage for this this id : ${id}`, 404));
+        return next(new ApiError(`Aucune stage pour cet identifiant : ${id}`, 404));
     }
 
     res.status(204).send();

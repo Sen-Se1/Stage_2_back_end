@@ -7,34 +7,34 @@ const etudiantSchema = new mongoose.Schema(
   {
     cin: {
       type: String,
-      unique: [true, 'Cin must be unique'],
-      required: [true, 'Cin required'],
-      minlength: [8, 'Too short cin'],
-      maxlength: [8, 'Too long cin'],
+      unique: [true, 'Cin doit être unique.'],
+      required: [true, 'Cin est obligatoire.'],
+      minlength: [8, 'Cin trop court.'],
+      maxlength: [8, 'Cin trop long.'],
     },
     nom: {
       type: String,
-      required: [true, 'Last name required'],
+      required: [true, 'Le nom est obligatoire.'],
       trim: true,
     },
     prenom: {
       type: String,
-      required: [true, 'First name required'],
+      required: [true, 'Le prenom est obligatoire.'],
       trim: true,
     },
     email: {
       type: String,
-      required: [true, 'Email required'],
-      unique: [true, 'Email must be unique'],
+      required: [true, "L'email est obligatoire."],
+      unique: [true, "L'email doit être unique."],
     },
     tel: {
       type: String,
-      required: [true, 'Phone number required'],
+      required: [true, 'Le numéro de téléphone est obligatoire.'],
     },
     codeG: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Groupe", // Reference to Groupe collection
-      required: [true, 'Group code required'],
+      required: [true, 'Le code de groupe est obligatoire.'],
     },
   },
   {

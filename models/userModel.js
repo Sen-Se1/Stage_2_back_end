@@ -5,26 +5,26 @@ const userSchema = new mongoose.Schema(
   {
     username: {
       type: String,
-      required: [true, 'Username required'],
-      minlength: [3, 'Too short username'],
+      required: [true, "Le nom d'utilisateur est obligatoire."],
+      minlength: [3, "Le nom d'utilisateur trop court"],
       trim: true,
     },
     email: {
       type: String,
-      required: [true, 'Email required'],
-      unique: [true, 'Email must be unique'],
+      required: [true, "L'email est obligatoire."],
+      unique: [true, "L'email doit être unique."],
     },
     password: {
       type: String,
-      required: [true, 'Password required'],
-      minlength: [8, 'Too short password'],
+      required: [true, 'Le mot de passe est obligatoire.'],
+      minlength: [8, 'Le mot passe trop court.'],
     },
     passwordChangedAt: Date,
     passwordResetToken: String,
     passwordResetTokenExpires: Date,
     role: {
       type: String,
-      required: [true, 'Role required'],
+      required: [true, 'Le rôle est obligatoire.'],
       enum: ['ADMIN', 'MODERATOR'],
       default: 'MODERATOR',
       trim: true,

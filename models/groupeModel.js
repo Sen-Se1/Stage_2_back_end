@@ -8,20 +8,20 @@ const groupeSchema = new mongoose.Schema(
   {
     codeG: {
       type: String,
-      required: [true, "Group code required"],
-      minlength: [3, "Too short group code"],
-      unique: [true, "Group code must be unique"],
+      required: [true, "Le code de groupe est obligatoire."],
+      minlength: [3, "Le code de groupe trop court."],
+      unique: [true, "Le code de groupe doit être unique."],
       trim: true,
     },
     libelle: {
       type: String,
-      required: [true, "Group label required"],
+      required: [true, "La libelle de groupe est obligatoire."],
       trim: true,
     },
     codeD: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Department", // Reference to Department collection
-      required: [true, "Department code required"],
+      required: [true, "Le code de département est obligatoire."],
     },
   },
   {

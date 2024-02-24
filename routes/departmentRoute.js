@@ -6,7 +6,7 @@ const {
   updateDepartmentValidator,
   deleteDepartmentValidator,
 } = require("../utils/validators/departmentValidator");
-const { protect } = require("../middlewares/authMiddleware");
+const { protect, allowedTo } = require("../middlewares/authMiddleware");
 const {
   createDepartment,
   getAllDepartment,
@@ -16,18 +16,20 @@ const {
 } = require("../controllers/departmentController");
 
 // only login admin is allowed
-router.post("/", protect, createDepartmentValidator, createDepartment);
+router.post("/", protect, allowedTo("ADMIN"), createDepartmentValidator, createDepartment);
 router.get("/", protect, getAllDepartment);
 router.get(
   "/:id",
   protect,
+  allowedTo("ADMIN"),
   getByIdDepartmentValidator,
   getByIdDepartment
 );
-router.put("/:id", protect, updateDepartmentValidator, updateDepartment);
+router.put("/:id", protect, allowedTo("ADMIN"), updateDepartmentValidator, updateDepartment);
 router.delete(
   "/:id",
   protect,
+  allowedTo("ADMIN"),
   deleteDepartmentValidator,
   deleteDepartment
 );

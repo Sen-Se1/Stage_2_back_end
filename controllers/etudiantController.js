@@ -27,7 +27,7 @@ exports.createEtudiant = asyncHandler(async (req, res, next) => {
 // @access  private
 exports.createByFileEtudiant = asyncHandler(async (req, res, next) => {
   if (!req.file || !req.file.filename) {
-    return next(new ApiError(`No file uploaded`, 400));
+    return next(new ApiError(`Aucun fichier téléchargé`, 400));
   }
   const filePath = "uploads/" + req.file.filename;
 
@@ -61,7 +61,7 @@ exports.getByIdEtudiant = asyncHandler(async (req, res, next) => {
   );
 
   if (!etudiant) {
-    return next(new ApiError(`No student for this id : ${id}`, 404));
+    return next(new ApiError(`Aucun étudiant pour cet identifiant : ${id}`, 404));
   }
   res.status(200).json({ data: etudiant });
 });
@@ -85,7 +85,7 @@ exports.updateEtudiant = asyncHandler(async (req, res, next) => {
   });
 
   if (!etudiant) {
-    return next(new ApiError(`No student for this this id : ${id}`, 404));
+    return next(new ApiError(`Aucun étudiant pour cet identifiant : ${id}`, 404));
   }
 
   res.status(200).json({ data: etudiant });
@@ -100,7 +100,7 @@ exports.deleteEtudiant = asyncHandler(async (req, res, next) => {
   const etudiant = await Etudiant.findOneAndDelete({ _id: id });
 
   if (!etudiant) {
-    return next(new ApiError(`No student for this this id : ${id}`, 404));
+    return next(new ApiError(`Aucun étudiant pour cet identifiant : ${id}`, 404));
   }
 
   res.status(204).send();

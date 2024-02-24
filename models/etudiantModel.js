@@ -24,8 +24,8 @@ const etudiantSchema = new mongoose.Schema(
     },
     email: {
       type: String,
-      required: [true, "L'email est obligatoire."],
-      unique: [true, "L'email doit être unique."],
+      required: [true, "Adresse e-mail est obligatoire."],
+      unique: [true, "Adresse e-mail doit être unique."],
     },
     tel: {
       type: String,

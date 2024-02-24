@@ -7,36 +7,36 @@ const User = require("../../models/userModel");
 exports.registerValidator = [
   check("username")
     .notEmpty()
-    .withMessage("Username required")
+    .withMessage("Le nom d'utilisateur est obligatoire.")
     .isLength({ min: 3 })
-    .withMessage("Too short username")
+    .withMessage("Le nom d'utilisateur trop court.")
     .isAlphanumeric()
-    .withMessage("Username must contain only letters and numbers")
+    .withMessage("Le nom d'utilisateur ne doit contenir que des lettres et des chiffres.")
     .custom((val) => {
       if (isStringAllSpaces(val)) {
-        return Promise.reject(new Error("Username must not be all spaces"));
+        return Promise.reject(new Error("Le nom d'utilisateur ne doit pas être composé uniquement d'espaces."));
       }
       return true;
     }),
 
   check("email")
     .notEmpty()
-    .withMessage("Email required")
+    .withMessage("Adresse e-mail est obligatoire.")
     .isEmail()
-    .withMessage("Invalid email address")
+    .withMessage("Adresse e-mail invalide.")
     .custom((val) =>
       User.findOne({ email: val }).then((user) => {
         if (user) {
-          return Promise.reject(new Error("E-mail already in user"));
+          return Promise.reject(new Error("Adresse email déjà utilisée."));
         }
       })
     ),
 
   check("password")
     .notEmpty()
-    .withMessage("Password required")
+    .withMessage("Le mot de passe est obligatoire.")
     .isLength({ min: 8 })
-    .withMessage("Password must be at least 8 characters")
+    .withMessage("Le mot de passe doit être d'au moins 8 caractères.")
     .isStrongPassword({
       // minLength: 8,
       minLowercase: 1,
@@ -45,25 +45,25 @@ exports.registerValidator = [
       minSymbols: 1,
     })
     .withMessage(
-      "The password is not strong, and must contain 'one lowercase letter, one uppercase letter, one number, and one symbol'"
+      "Le mot de passe n'est pas fort et doit contenir « une lettre minuscule, une lettre majuscule, un chiffre et un symbole »."
     ),
   check("passwordConfirm")
     .notEmpty()
-    .withMessage("You must enter the password confirmation")
+    .withMessage("Vous devez saisir la confirmation du mot de passe.")
     .custom(async (val, { req }) => {
       // 1) Verify password confirm
       if (val !== req.body.password) {
-        throw new Error("Password Confirmation incorrect");
+        throw new Error("Confirmez le mot de passe incorrect.");
       }
       return true;
     }),
 
   check("role")
     .notEmpty()
-    .withMessage("Role required")
+    .withMessage("Le rôle est obligatoire.")
     .custom((val) => {
       if (isStringAllSpaces(val)) {
-        return Promise.reject(new Error("Role must not be all spaces"));
+        return Promise.reject(new Error("Le rôle ne doit pas être composé uniquement d'espaces."));
       }
       return true;
     })
@@ -71,7 +71,7 @@ exports.registerValidator = [
       array = ["Admin", "Moderator"];
       if (array.indexOf(val) === -1) {
         return Promise.reject(
-          new Error("Role must be one of the following : 'Admin', 'Moderator'")
+          new Error("Le rôle doit être l'un des suivants : « Admin », « Moderator ».")
         );
       }
       return true;
@@ -83,13 +83,13 @@ exports.registerValidator = [
 exports.loginValidator = [
   check("email")
     .notEmpty()
-    .withMessage("Email required")
+    .withMessage("Adresse e-mail est obligatoire.")
     .isEmail()
-    .withMessage("Invalid email address"),
+    .withMessage("Adresse e-mail invalide."),
 
   check("password")
     .notEmpty()
-    .withMessage("Password required"),
+    .withMessage("Le mot de passe est obligatoire."),
 
   validatorMiddleware,
 ];

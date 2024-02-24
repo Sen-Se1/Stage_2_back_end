@@ -8,7 +8,7 @@ exports.protect = asyncHandler(async (req, res, next) => {
   // 1) Check if token exist, if exist get
   let token;
   if (req.headers.authorization || req.headers.Authorization) {
-    token = req.headers.authorization;
+    token = req.headers.authorization || req.headers.Authorization;
   }
   if (!token) {
     return next(

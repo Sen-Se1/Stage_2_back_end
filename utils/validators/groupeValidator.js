@@ -6,36 +6,36 @@ const Department = require("../../models/departmentModel");
 exports.createGroupeValidator = [
   check("codeG")
     .notEmpty()
-    .withMessage("Group code required")
+    .withMessage("Le code de groupe est obligatoire.")
     .isLength({ min: 3 })
-    .withMessage("Too short group code")
+    .withMessage("Le code de groupe trop court.")
     .isAlphanumeric()
-    .withMessage("Group code must contain only letters and numbers")
+    .withMessage("Le code de groupe doit contenir uniquement des lettres et des chiffres.")
     .custom((val) => {
       if (isStringAllSpaces(val)) {
-        return Promise.reject(new Error("Group code must not be all spaces"));
+        return Promise.reject(new Error("Le code de groupe ne doit pas être composé d'espaces."));
       }
       return true;
     }),
 
   check("libelle")
     .notEmpty()
-    .withMessage("Group label required")
+    .withMessage("La libelle de groupe est obligatoire.")
     .custom((val) => {
       if (isStringAllSpaces(val)) {
-        return Promise.reject(new Error("Group label must not be all spaces"));
+        return Promise.reject(new Error("La libelle de groupe ne doit pas être composé d'espaces."));
       }
       return true;
     }),
 
   check("codeD")
     .isMongoId()
-    .withMessage("Invalid department code id format")
+    .withMessage("Le format d'identifiant de code départemental est invalide.")
     .custom((val) =>
       Department.findById({ _id: val }).then((department) => {
         if (!department) {
           return Promise.reject(
-            new Error(`No department for this id : ${val}`)
+            new Error(`Aucun département pour cet identifiant : ${val}`)
           );
         }
       })
@@ -45,46 +45,46 @@ exports.createGroupeValidator = [
 ];
 
 exports.getByIdGroupeValidator = [
-  check("id").isMongoId().withMessage("Invalid group id format"),
+  check("id").isMongoId().withMessage("Le format d'identifiant de groupe est invalide."),
 
   validatorMiddleware,
 ];
 
 exports.updateGroupeValidator = [
-  check("id").isMongoId().withMessage("Invalid group id format"),
+  check("id").isMongoId().withMessage("Le format d'identifiant de groupe est invalide."),
 
   check("codeG")
     .notEmpty()
-    .withMessage("Group code required")
+    .withMessage("Le code de groupe est obligatoire.")
     .isLength({ min: 3 })
-    .withMessage("Too short group code")
+    .withMessage("Le code de groupe trop court.")
     .isAlphanumeric()
-    .withMessage("Group code must contain only letters and numbers")
+    .withMessage("Le code de groupe doit contenir uniquement des lettres et des chiffres.")
     .custom((val) => {
       if (isStringAllSpaces(val)) {
-        return Promise.reject(new Error("Group code must not be all spaces"));
+        return Promise.reject(new Error("Le code de groupe ne doit pas être composé d'espaces."));
       }
       return true;
     }),
 
   check("libelle")
     .notEmpty()
-    .withMessage("Group label required")
+    .withMessage("La libelle de groupe est obligatoire.")
     .custom((val) => {
       if (isStringAllSpaces(val)) {
-        return Promise.reject(new Error("Group label must not be all spaces"));
+        return Promise.reject(new Error("La libelle de groupe ne doit pas être composé d'espaces."));
       }
       return true;
     }),
 
   check("codeD")
     .isMongoId()
-    .withMessage("Invalid department code id format")
+    .withMessage("Le format d'identifiant de code départemental est invalide.")
     .custom((val) =>
       Department.findById({ _id: val }).then((department) => {
         if (!department) {
           return Promise.reject(
-            new Error(`No department for this id : ${val}`)
+            new Error(`Aucun département pour cet identifiant : ${val}`)
           );
         }
       })
@@ -94,7 +94,7 @@ exports.updateGroupeValidator = [
 ];
 
 exports.deleteGroupeValidator = [
-  check("id").isMongoId().withMessage("Invalid group id format"),
+  check("id").isMongoId().withMessage("Le format d'identifiant de groupe est invalide."),
 
   validatorMiddleware,
 ];

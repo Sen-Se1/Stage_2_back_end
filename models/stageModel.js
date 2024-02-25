@@ -9,7 +9,7 @@ const stageSchema = new mongoose.Schema(
       type: String,
       unique: [true, 'Le code de stage doit être unique.'],
       required: [true, 'Le code de stage est obligatoire.'],
-      minlength: [3, 'Le code de stage trop court'],
+      minlength: [3, 'Le code de stage trop court.'],
       trim: true,
     },
     type: {

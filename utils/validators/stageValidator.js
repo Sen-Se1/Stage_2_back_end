@@ -5,21 +5,21 @@ const { isStringAllSpaces } = require("../customValidator");
 exports.createStageValidator = [
   check("codeS")
     .notEmpty()
-    .withMessage("Stage code required")
+    .withMessage("Le code de stage est obligatoire.")
     .isLength({ min: 3 })
-    .withMessage("Too short stage code")
+    .withMessage("Le code de stage trop court.")
     .isAlphanumeric()
-    .withMessage("Stage code must contain only letters and numbers")
+    .withMessage("Le code de stage doit contenir uniquement des lettres et des chiffres.")
     .custom((val) => {
       if (isStringAllSpaces(val)) {
-        return Promise.reject(new Error("Stage code must not be all spaces"));
+        return Promise.reject(new Error("Le code de stage ne doit pas être composé d'espaces."));
       }
       return true;
     }),
 
   check("type")
     .notEmpty()
-    .withMessage("Stage type required")
+    .withMessage("Le type de stage est obligatoire.")
     .custom((val) => {
       array = [
         "Stage d'initiation",
@@ -29,7 +29,7 @@ exports.createStageValidator = [
       if (array.indexOf(val) === -1) {
         return Promise.reject(
           new Error(
-            "Stage type must be one of the following : 'Stage d'initiation', 'Stage de perfectionnement', 'Stage de fin d'etude'"
+            "Le type de stage doit être l'un des suivants : « Stage d'initiation, Stage de perfectionnement, Stage de fin d'étude »."
           )
         );
       }
@@ -38,12 +38,12 @@ exports.createStageValidator = [
 
   check("duree")
     .notEmpty()
-    .withMessage("Stage duration required")
+    .withMessage("La durée de stage est obligatoire.")
     .isNumeric()
-    .withMessage("Stage duration must be a number")
+    .withMessage("La durée du stage doit être un nombre.")
     .custom((val) => {
       if (parseFloat(val) <= 0) {
-        throw new Error("Stage duration field must be a positive number");
+        throw new Error("La durée de stage doit être un nombre positif.");
       }
       return true;
     }),
@@ -52,25 +52,25 @@ exports.createStageValidator = [
 ];
 
 exports.getByIdStageValidator = [
-  check("id").isMongoId().withMessage("Invalid stage id format"),
+  check("id").isMongoId().withMessage("Le format d'identifiant de stage est invalide."),
 
   validatorMiddleware,
 ];
 
 exports.updateStageValidator = [
-  check("id").isMongoId().withMessage("Invalid stage id format"),
+  check("id").isMongoId().withMessage("Le format d'identifiant de stage est invalide."),
 
   check("codeS")
     .notEmpty()
-    .withMessage("Stage code required")
+    .withMessage("Le code de stage est obligatoire.")
     .isLength({ min: 3 })
-    .withMessage("Too short stage code")
+    .withMessage("Le code de stage trop court.")
     .isAlphanumeric()
-    .withMessage("Stage code must contain only letters and numbers"),
+    .withMessage("Le code de stage doit contenir uniquement des lettres et des chiffres."),
 
   check("type")
     .notEmpty()
-    .withMessage("Stage type required")
+    .withMessage("Le type de stage est obligatoire.")
     .custom((val) => {
       array = [
         "Stage d'initiation",
@@ -80,7 +80,7 @@ exports.updateStageValidator = [
       if (array.indexOf(val) === -1) {
         return Promise.reject(
           new Error(
-            "Stage type must be one of the following : 'Stage d'initiation', 'Stage de perfectionnement', 'Stage de fin d'etude'"
+            "Le type de stage doit être l'un des suivants : « Stage d'initiation, Stage de perfectionnement, Stage de fin d'étude »."
           )
         );
       }
@@ -89,12 +89,12 @@ exports.updateStageValidator = [
 
   check("duree")
     .notEmpty()
-    .withMessage("Stage duration required")
+    .withMessage("La durée de stage est obligatoire.")
     .isNumeric()
-    .withMessage("Stage duration must be a number")
+    .withMessage("La durée du stage doit être un nombre.")
     .custom((val) => {
       if (parseFloat(val) <= 0) {
-        throw new Error("Stage duration field must be a positive number");
+        throw new Error("La durée de stage doit être un nombre positif.");
       }
       return true;
     }),
@@ -103,7 +103,7 @@ exports.updateStageValidator = [
 ];
 
 exports.deleteStageValidator = [
-  check("id").isMongoId().withMessage("Invalid stage id format"),
+  check("id").isMongoId().withMessage("Le format d'identifiant de stage est invalide."),
 
   validatorMiddleware,
 ];

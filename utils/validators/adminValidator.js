@@ -9,25 +9,25 @@ exports.addAdminModValidator = [
     .isLength({ min: 3 })
     .withMessage("Le nom d'utilisateur trop court.")
     .isAlphanumeric()
-    .withMessage("Username must contain only letters and numbers")
+    .withMessage("Le nom d'utilisateur doit contenir uniquement des lettres et des chiffres.")
     .custom((val) => {
       if (isStringAllSpaces(val)) {
-        return Promise.reject(new Error("Username must not be all spaces"));
+        return Promise.reject(new Error("Le nom d'utilisateur ne doit pas être composé d'espaces."));
       }
       return true;
     }),
 
   check("email")
     .notEmpty()
-    .withMessage("Email required")
+    .withMessage("Adresse e-mail est obligatoire.")
     .isEmail()
-    .withMessage("Invalid email address"),
+    .withMessage("Adresse e-mail est invalide."),
 
   check("password")
     .notEmpty()
-    .withMessage("Password required")
+    .withMessage("Le mot de passe est obligatoire.")
     .isLength({ min: 8 })
-    .withMessage("Password must be at least 8 characters")
+    .withMessage("Le mot de passe doit être d'au moins 8 caractères.")
     .isStrongPassword({
       // minLength: 8,
       minLowercase: 1,
@@ -36,15 +36,15 @@ exports.addAdminModValidator = [
       minSymbols: 1,
     })
     .withMessage(
-      "The password is not strong, and must contain 'one lowercase letter, one uppercase letter, one number, and one symbol'"
+      "Le mot de passe n'est pas fort et doit contenir « une lettre minuscule, une lettre majuscule, un chiffre et un symbole »."
     ),
   check("passwordConfirm")
     .notEmpty()
-    .withMessage("Password confirmation required")
+    .withMessage("Vous devez saisir la confirmation du mot de passe.")
     .custom((val, { req }) => {
       if (req.body.password !== val) {
         return Promise.reject(
-          new Error(`Password confirmation must be identical to new password `)
+          new Error(`Confirmez, le mot de passe est incorrect.`)
         );
       }
       return true;
@@ -52,10 +52,10 @@ exports.addAdminModValidator = [
 
   check("role")
     .notEmpty()
-    .withMessage("Role required")
+    .withMessage("Le rôle est obligatoire.")
     .custom((val) => {
       if (isStringAllSpaces(val)) {
-        return Promise.reject(new Error("Role must not be all spaces"));
+        return Promise.reject(new Error("Le rôle ne doit pas être composé uniquement d'espaces."));
       }
       return true;
     })
@@ -63,7 +63,7 @@ exports.addAdminModValidator = [
       array = ["Moderator"];
       if (array.indexOf(val) === -1) {
         return Promise.reject(
-          new Error("Role must be one of the following : 'Moderator'")
+          new Error("Le rôle doit être l'un des suivants : « Moderator ».")
         );
       }
       return true;
@@ -73,13 +73,13 @@ exports.addAdminModValidator = [
 ];
 
 exports.getByIdAdminModValidator = [
-  check("id").isMongoId().withMessage("Invalid moderator id format"),
+  check("id").isMongoId().withMessage("Le format d'identifiant de modérateur est invalide."),
 
   validatorMiddleware,
 ];
 
 exports.updateAdminModValidator = [
-  check("id").isMongoId().withMessage("Invalid moderator id format"),
+  check("id").isMongoId().withMessage("Le format d'identifiant de modérateur est invalide."),
 
   check("username")
     .notEmpty()
@@ -87,26 +87,26 @@ exports.updateAdminModValidator = [
     .isLength({ min: 3 })
     .withMessage("Le nom d'utilisateur trop court.")
     .isAlphanumeric()
-    .withMessage("Username must contain only letters and numbers")
+    .withMessage("Le nom d'utilisateur doit contenir uniquement des lettres et des chiffres.")
     .custom((val) => {
       if (isStringAllSpaces(val)) {
-        return Promise.reject(new Error("Username must not be all spaces"));
+        return Promise.reject(new Error("Le nom d'utilisateur ne doit pas être composé d'espaces."));
       }
       return true;
     }),
 
   check("email")
     .notEmpty()
-    .withMessage("Email required")
+    .withMessage("Adresse e-mail est obligatoire.")
     .isEmail()
-    .withMessage("Invalid email address"),
+    .withMessage("Adresse e-mail est invalide."),
 
   check("role")
     .notEmpty()
-    .withMessage("Role required")
+    .withMessage("Le rôle est obligatoire.")
     .custom((val) => {
       if (isStringAllSpaces(val)) {
-        return Promise.reject(new Error("Role must not be all spaces"));
+        return Promise.reject(new Error("Le rôle ne doit pas être composé uniquement d'espaces."));
       }
       return true;
     })
@@ -114,7 +114,7 @@ exports.updateAdminModValidator = [
       array = ["Moderator"];
       if (array.indexOf(val) === -1) {
         return Promise.reject(
-          new Error("Role must be one of the following : 'Moderator'")
+          new Error("Le rôle doit être l'un des suivants : « Moderator ».")
         );
       }
       return true;
@@ -124,13 +124,13 @@ exports.updateAdminModValidator = [
 ];
 
 exports.updateAdminModPwdValidator = [
-  check("id").isMongoId().withMessage("Invalid moderator id format"),
+  check("id").isMongoId().withMessage("Le format d'identifiant de modérateur est invalide."),
 
   check("password")
     .notEmpty()
-    .withMessage("New password required")
+    .withMessage("Le nouveau mot de passe est obligatoire.")
     .isLength({ min: 8 })
-    .withMessage("New password must be at least 8 characters")
+    .withMessage("Le nouveau mot de passe doit être d'au moins 8 caractères.")
     .isStrongPassword({
       // minLength: 8,
       minLowercase: 1,
@@ -139,16 +139,16 @@ exports.updateAdminModPwdValidator = [
       minSymbols: 1,
     })
     .withMessage(
-      "The new password is not strong, and must contain 'one lowercase letter, one uppercase letter, one number, and one symbol'"
+      "Le nouveau mot de passe n'est pas fort et doit contenir « une lettre minuscule, une lettre majuscule, un chiffre et un symbole »."
     ),
 
   check("passwordConfirm")
     .notEmpty()
-    .withMessage("Password confirmation required")
+    .withMessage("Vous devez saisir la confirmation du mot de passe.")
     .custom((val, { req }) => {
       if (req.body.password !== val) {
         return Promise.reject(
-          new Error(`Password confirmation must be identical to new password `)
+          new Error(`Confirmez, le mot de passe est incorrect.`)
         );
       }
       return true;
@@ -158,7 +158,7 @@ exports.updateAdminModPwdValidator = [
 ];
 
 exports.deleteAdminModValidator = [
-  check("id").isMongoId().withMessage("Invalid moderator id format"),
+  check("id").isMongoId().withMessage("Le format d'identifiant de modérateur est invalide."),
 
   validatorMiddleware,
 ];

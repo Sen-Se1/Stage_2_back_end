@@ -23,7 +23,7 @@ exports.registerValidator = [
     .notEmpty()
     .withMessage("Adresse e-mail est obligatoire.")
     .isEmail()
-    .withMessage("Adresse e-mail invalide.")
+    .withMessage("Adresse e-mail est invalide.")
     .custom((val) =>
       User.findOne({ email: val }).then((user) => {
         if (user) {
@@ -53,7 +53,7 @@ exports.registerValidator = [
     .custom(async (val, { req }) => {
       // 1) Verify password confirm
       if (val !== req.body.password) {
-        throw new Error("Confirmez le mot de passe incorrect.");
+        throw new Error("Confirmez, le mot de passe est incorrect.");
       }
       return true;
     }),
@@ -85,7 +85,7 @@ exports.loginValidator = [
     .notEmpty()
     .withMessage("Adresse e-mail est obligatoire.")
     .isEmail()
-    .withMessage("Adresse e-mail invalide."),
+    .withMessage("Adresse e-mail est invalide."),
 
   check("password")
     .notEmpty()
@@ -118,7 +118,7 @@ exports.resetPasswordValidator = [
     .custom(async (val, { req }) => {
       // 1) Verify password confirm
       if (val !== req.body.password) {
-        throw new Error("Confirmez le mot de passe incorrect.");
+        throw new Error("Confirmez, le mot de passe est incorrect.");
       }
       return true;
     }),
@@ -153,7 +153,7 @@ exports.updateProfileValidator = [
     .notEmpty()
     .withMessage("Adresse e-mail est obligatoire.")
     .isEmail()
-    .withMessage("Adresse e-mail invalide."),
+    .withMessage("Adresse e-mail est invalide."),
 
   check("password")
     .notEmpty()
@@ -209,7 +209,7 @@ exports.updateProfilePwdValidator = [
       }
       // 1) Verify password confirm
       if (val !== req.body.password) {
-        throw new Error("Confirmez le mot de passe incorrect.");
+        throw new Error("Confirmez, le mot de passe est incorrect.");
       }
       // 2) Verify current password
       const isCorrectPassword = await bcrypt.compare(
@@ -217,7 +217,7 @@ exports.updateProfilePwdValidator = [
         user.password
       );
       if (!isCorrectPassword) {
-        throw new Error("Le mot de passe actuel incorrect.");
+        throw new Error("Le mot de passe actuel est incorrect.");
       }
 
       return true;

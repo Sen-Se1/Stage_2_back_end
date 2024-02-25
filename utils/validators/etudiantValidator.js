@@ -24,7 +24,7 @@ exports.createByFileEtudiantValidator = async (data) => {
     for (let key of ["cin", "nom", "prenom", "email", "tel", "codeG"]) {
       if (!(key in item)) {
         throw new ApiError(
-          `All fields are required. Error in line '${i + 1}'`,
+          `Tous les champs sont requis. Erreur dans la ligne '${i + 1}'`,
           400
         );
       }
@@ -32,51 +32,51 @@ exports.createByFileEtudiantValidator = async (data) => {
 
     // Check if fields are empty
     if (!isEmpty(item.cin)) {
-      throw new ApiError(`Cin required. Error in line '${i + 1}'`, 400);
+      throw new ApiError(`CIN est obligatoire. Erreur dans la ligne '${i + 1}'`, 400);
     }
     if (!isEmpty(item.nom)) {
-      throw new ApiError(`Last name required. Error in line '${i + 1}'`, 400);
+      throw new ApiError(`Le nom est obligatoire. Erreur dans la ligne '${i + 1}'`, 400);
     }
     if (!isEmpty(item.prenom)) {
-      throw new ApiError(`First name required. Error in line '${i + 1}'`, 400);
+      throw new ApiError(`Le prenom est obligatoire. Erreur dans la ligne '${i + 1}'`, 400);
     }
     if (!isEmpty(item.email)) {
-      throw new ApiError(`Email required. Error in line '${i + 1}'`, 400);
+      throw new ApiError(`Adresse e-mail est obligatoire. Erreur dans la ligne '${i + 1}'`, 400);
     }
     if (!isEmpty(item.tel)) {
-      throw new ApiError(`Phone number required. Error in line '${i + 1}'`, 400);
+      throw new ApiError(`Le numéro de téléphone est obligatoire. Erreur dans la ligne '${i + 1}'`, 400);
     }
     if (!isEmpty(item.codeG)) {
-      throw new ApiError(`Group code required. Error in line '${i + 1}'`, 400);
+      throw new ApiError(`Le code de groupe est obligatoire. Erreur dans la ligne '${i + 1}'`, 400);
     }
 
     // Validate CIN format
     if (!isInteger(item.cin) || item.cin.toString().length !== 8) {
       throw new ApiError(
-        `Cin must be a valid 8-digit number. Error in line '${i + 1}'`,
+        `CIN doit être un numéro valide à 8 chiffres. Erreur dans la ligne '${i + 1}'`,
         400
       );
     }
 
     // Validate last name format
     if (!containsOnlyLetters(item.nom) || isStringAllSpaces(item.nom)) {
-      throw new ApiError(`Invalid last name. Error in line '${i + 1}'`, 400);
+      throw new ApiError(`Le nom est invalide. Erreur dans la ligne '${i + 1}'`, 400);
     }
 
     // Validate first name format
     if (!containsOnlyLetters(item.prenom) || isStringAllSpaces(item.prenom)) {
-      throw new ApiError(`Invalid first name. Error in line '${i + 1}'`, 400);
+      throw new ApiError(`Le prenom est invalide. Erreur dans la ligne '${i + 1}'`, 400);
     }
 
     // Validate email format
     if (!isValidEmail(item.email)) {
-      throw new ApiError(`Invalid email. Error in line '${i + 1}'`, 400);
+      throw new ApiError(`Adresse e-mail est invalide. Erreur dans la ligne '${i + 1}'`, 400);
     }
 
     // Validate Tunisian phone number format
     if (!isValidTunisianPhoneNumber(item.tel)) {
       throw new ApiError(
-        `Invalid phone number only accepted Tunisia phone numbers. Error in line '${i + 1}'`,
+        `Le numéro de téléphone invalide est uniquement accepté pour les numéros de téléphone de Tunisie. Erreur dans la ligne '${i + 1}'`,
         400
       );
     }
@@ -84,7 +84,7 @@ exports.createByFileEtudiantValidator = async (data) => {
     // Add CIN to set
     if (seenCINs.has(item.cin)) {
       throw new ApiError(
-        `The student with this CIN '${item.cin}' is duplicated. Error in line '${i + 1}'`,
+        `L'étudiant avec ce CIN ${item.cin} est dupliqué. Erreur dans la ligne '${i + 1}'`,
         400
       );
     } else {
@@ -94,7 +94,7 @@ exports.createByFileEtudiantValidator = async (data) => {
     // Add email to set
     if (seenEmails.has(item.email)) {
       throw new ApiError(
-        `The student with this email '${item.email}' is duplicated. Error in line '${i + 1}'`,
+        `L'étudiant avec cet adresse e-mail ${item.email} est dupliqué. Erreur dans la ligne '${i + 1}'`,
         400
       );
     } else {
@@ -103,7 +103,7 @@ exports.createByFileEtudiantValidator = async (data) => {
 
     // if (!isValidObjectId(item.codeG)) {
     //   throw new ApiError(
-    //     `Invalid Group code id format. Error in line '${i + 1}'`,
+    //     `Le format d'identifiant de groupe est invalide.. Erreur dans la ligne '${i + 1}'`,
     //     400
     //   );
     // }
@@ -117,7 +117,7 @@ exports.createByFileEtudiantValidator = async (data) => {
     const etudiantCin = await Etudiant.findOne({ cin: item.cin });
     if (etudiantCin) {
       throw new ApiError(
-        `The student with this CIN '${item.cin}' already exists. Error in line '${i + 1}'`,
+        `L'étudiant avec ce CIN ${item.cin} existe déjà. Erreur dans la ligne '${i + 1}'`,
         400
       );
     }
@@ -126,7 +126,7 @@ exports.createByFileEtudiantValidator = async (data) => {
     const etudiantEmail = await Etudiant.findOne({ email: item.email });
     if (etudiantEmail) {
       throw new ApiError(
-        `The student with this email '${item.email}' already exists. Error in line '${i + 1}'`,
+        `L'étudiant avec cet adresse e-mail ${item.email} existe déjà. Erreur dans la ligne '${i + 1}'`,
         400
       );
     }
@@ -135,7 +135,7 @@ exports.createByFileEtudiantValidator = async (data) => {
     const groupe = await Groupe.findOne({ codeG: item.codeG });
     if (!groupe) {
       throw new ApiError(
-        `No group found for this code: ${item.codeG}. Error in line '${i + 1}'`,
+        `Aucun groupe trouvé pour ce code : ${item.codeG}. Erreur dans la ligne '${i + 1}'`,
         404
       );
     }
@@ -147,55 +147,55 @@ exports.createByFileEtudiantValidator = async (data) => {
 exports.createEtudiantValidator = [
   check("cin")
     .notEmpty()
-    .withMessage("Cin required")
+    .withMessage("CIN est obligatoire.")
     .isLength({ min: 8, max: 8 })
-    .withMessage("Cin only 8 numbers required")
+    .withMessage("Cin seulement 8 chiffres est obligatoire.")
     .isInt()
-    .withMessage("Cin must be a number"),
+    .withMessage("CIN doit être un nombre."),
 
   check("nom")
     .notEmpty()
-    .withMessage("Last name required")
+    .withMessage("Le nom est obligatoire.")
     .isAlpha()
-    .withMessage("Last name must contain only letters")
+    .withMessage("Le nom ne doit contenir que des lettres.")
     .custom((val) => {
       if (isStringAllSpaces(val)) {
-        return Promise.reject(new Error("Last name must not be all spaces"));
+        return Promise.reject(new Error("Le nom ne doit pas être composé d'espaces."));
       }
       return true;
     }),
 
   check("prenom")
     .notEmpty()
-    .withMessage("First name required")
+    .withMessage("Le prenom est obligatoire.")
     .isAlpha()
-    .withMessage("First name must contain only letters")
+    .withMessage("Le prenom ne doit contenir que des lettres.")
     .custom((val) => {
       if (isStringAllSpaces(val)) {
-        return Promise.reject(new Error("First name must not be all spaces"));
+        return Promise.reject(new Error("Le prenom ne doit pas être composé d'espaces."));
       }
       return true;
     }),
 
   check("email")
     .notEmpty()
-    .withMessage("Email required")
+    .withMessage("Adresse e-mail est obligatoire.")
     .isEmail()
-    .withMessage("Invalid email address"),
+    .withMessage("Adresse e-mail est invalide."),
 
   check("tel")
     .notEmpty()
-    .withMessage("Phone number required")
+    .withMessage("Le numéro de téléphone est obligatoire.")
     .isMobilePhone(["ar-TN"])
-    .withMessage("Invalid phone number only accepted Tunisia phone numbers"),
+    .withMessage("Le numéro de téléphone invalide est uniquement accepté pour les numéros de téléphone de Tunisie."),
 
   check("codeG")
     .isMongoId()
-    .withMessage("Invalid Group code id format")
+    .withMessage("Le format d'identifiant de groupe est invalide.")
     .custom((val) =>
       Groupe.findById({ _id: val }).then((groupe) => {
         if (!groupe) {
-          return Promise.reject(new Error(`No group for this id : ${val}`));
+          return Promise.reject(new Error(`Aucun groupe pour cet identifiant : ${val}`));
         }
       })
     ),
@@ -204,61 +204,61 @@ exports.createEtudiantValidator = [
 ];
 
 exports.getByIdEtudiantValidator = [
-  check("id").isMongoId().withMessage("Invalid student id format"),
+  check("id").isMongoId().withMessage("Le format d'identifiant d'étudiant est invalide."),
 
   validatorMiddleware,
 ];
 
 exports.updateEtudiantValidator = [
-  check("id").isMongoId().withMessage("Invalid student id format"),
+  check("id").isMongoId().withMessage("Le format d'identifiant d'étudiant est invalide."),
 
   check("cin")
     .notEmpty()
-    .withMessage("Cin required")
+    .withMessage("CIN est obligatoire.")
     .isLength({ min: 8, max: 8 })
-    .withMessage("Cin only 8 numbers required")
+    .withMessage("Cin seulement 8 chiffres est obligatoire.")
     .isInt()
-    .withMessage("Cin must be a number"),
+    .withMessage("CIN doit être un nombre."),
 
   check("nom")
     .notEmpty()
-    .withMessage("Last name required")
+    .withMessage("Le nom est obligatoire.")
     .isAlpha()
-    .withMessage("Last name must contain only letters")
+    .withMessage("Le nom ne doit contenir que des lettres.")
     .custom((val) => {
       if (isStringAllSpaces(val)) {
-        return Promise.reject(new Error("Last name must not be all spaces"));
+        return Promise.reject(new Error("Le nom ne doit pas être composé d'espaces."));
       }
       return true;
     }),
 
   check("prenom")
     .notEmpty()
-    .withMessage("First name required")
+    .withMessage("Le prenom est obligatoire.")
     .isAlpha()
-    .withMessage("First name must contain only letters")
+    .withMessage("Le prenom ne doit contenir que des lettres.")
     .custom((val) => {
       if (isStringAllSpaces(val)) {
-        return Promise.reject(new Error("First name must not be all spaces"));
+        return Promise.reject(new Error("Le prenom ne doit pas être composé d'espaces."));
       }
       return true;
     }),
 
   check("email")
     .notEmpty()
-    .withMessage("Email required")
+    .withMessage("Adresse e-mail est obligatoire.")
     .isEmail()
-    .withMessage("Invalid email address"),
+    .withMessage("Adresse e-mail est invalide."),
 
   check("tel")
     .notEmpty()
-    .withMessage("Phone number required")
+    .withMessage("Le numéro de téléphone est obligatoire.")
     .isMobilePhone(["ar-TN"])
-    .withMessage("Invalid phone number only accepted Tunisia phone numbers"),
+    .withMessage("Le numéro de téléphone invalide est uniquement accepté pour les numéros de téléphone de Tunisie."),
 
   check("codeG")
     .isMongoId()
-    .withMessage("Invalid Group code id format")
+    .withMessage("Le format d'identifiant de groupe est invalide.")
     .custom((val) =>
       Groupe.findById({ _id: val }).then((groupe) => {
         if (!groupe) {
@@ -271,7 +271,7 @@ exports.updateEtudiantValidator = [
 ];
 
 exports.deleteEtudiantValidator = [
-  check("id").isMongoId().withMessage("Invalid student id format"),
+  check("id").isMongoId().withMessage("Le format d'identifiant d'étudiant est invalide."),
 
   validatorMiddleware,
 ];

@@ -98,9 +98,9 @@ exports.resetPasswordValidator = [
 
   check("password")
     .notEmpty()
-    .withMessage("You must enter new password")
+    .withMessage("Vous devez entrer un nouveau mot de passe.")
     .isLength({ min: 8 })
-    .withMessage("Password must be at least 8 characters")
+    .withMessage("Le mot de passe doit être d'au moins 8 caractères.")
     .isStrongPassword({
       // minLength: 8,
       minLowercase: 1,
@@ -109,16 +109,16 @@ exports.resetPasswordValidator = [
       minSymbols: 1,
     })
     .withMessage(
-      "The new password is not strong, and must contain 'one lowercase letter, one uppercase letter, one number, and one symbol'"
+      "Le mot de passe n'est pas fort et doit contenir « une lettre minuscule, une lettre majuscule, un chiffre et un symbole »."
     ),
 
   check("passwordConfirm")
     .notEmpty()
-    .withMessage("You must enter the password confirmation")
+    .withMessage("Vous devez saisir la confirmation du mot de passe.")
     .custom(async (val, { req }) => {
       // 1) Verify password confirm
       if (val !== req.body.password) {
-        throw new Error("Password Confirmation incorrect");
+        throw new Error("Confirmez le mot de passe incorrect.");
       }
       return true;
     }),
@@ -127,48 +127,48 @@ exports.resetPasswordValidator = [
 ];
 
 exports.getProfileValidator = [
-  check("id").isMongoId().withMessage("Invalid profile id format"),
+  check("id").isMongoId().withMessage("Le format d'identifiant de profil est invalide."),
 
   validatorMiddleware,
 ];
 
 exports.updateProfileValidator = [
-  check("id").isMongoId().withMessage("Invalid profile id format"),
+  check("id").isMongoId().withMessage("Le format d'identifiant de profil est invalide."),
 
   check("username")
     .notEmpty()
-    .withMessage("Username required")
+    .withMessage("Le nom d'utilisateur est obligatoire.")
     .isLength({ min: 3 })
-    .withMessage("Too short username")
+    .withMessage("Le nom d'utilisateur trop court.")
     .isAlphanumeric()
-    .withMessage("Username must contain only letters and numbers")
+    .withMessage("Le nom d'utilisateur ne doit contenir que des lettres et des chiffres.")
     .custom((val) => {
       if (isStringAllSpaces(val)) {
-        return Promise.reject(new Error("Username must not be all spaces"));
+        return Promise.reject(new Error("Le nom d'utilisateur ne doit pas être composé uniquement d'espaces."));
       }
       return true;
     }),
 
   check("email")
     .notEmpty()
-    .withMessage("Email required")
+    .withMessage("Adresse e-mail est obligatoire.")
     .isEmail()
-    .withMessage("Invalid email address"),
+    .withMessage("Adresse e-mail invalide."),
 
   check("password")
     .notEmpty()
-    .withMessage("You must enter the password")
+    .withMessage("Le mot de passe est obligatoire.")
     .custom(async (val, { req }) => {
       const user = await User.findById(req.params.id);
       if (!user) {
-        throw new Error(`There is no profile for this id : ${req.params.id}`);
+        throw new Error(`Il n'y a pas de profil pour cet identifiant: ${req.params.id}`);
       }
       const isCorrectPassword = await bcrypt.compare(
         val,
         user.password
       );
       if (!isCorrectPassword) {
-        throw new Error("Incorrect current password");
+        throw new Error("Le mot de passe actuel incorrect.");
       }
       return true;
     }),
@@ -177,17 +177,17 @@ exports.updateProfileValidator = [
 ];
 
 exports.updateProfilePwdValidator = [
-  check("id").isMongoId().withMessage("Invalid profile id format"),
+  check("id").isMongoId().withMessage("Le format d'identifiant de profil est invalide."),
 
   check("currentPassword")
     .notEmpty()
-    .withMessage("You must enter your current password"),
+    .withMessage("Vous devez entrer votre mot de passe actuel."),
 
   check("password")
     .notEmpty()
-    .withMessage("You must enter new password")
+    .withMessage("Vous devez entrer un nouveau mot de passe.")
     .isLength({ min: 8 })
-    .withMessage("New password must be at least 8 characters")
+    .withMessage("Le nouveau mot de passe doit comporter au moins 8 caractères.")
     .isStrongPassword({
       // minLength: 8,
       minLowercase: 1,
@@ -196,20 +196,20 @@ exports.updateProfilePwdValidator = [
       minSymbols: 1,
     })
     .withMessage(
-      "The new password is not strong, and must contain 'one lowercase letter, one uppercase letter, one number, and one symbol'"
+      "Le nouveau mot de passe n'est pas fort et doit contenir « une lettre minuscule, une lettre majuscule, un chiffre et un symbole »."
     ),
 
   check("passwordConfirm")
     .notEmpty()
-    .withMessage("You must enter the password confirmation")
+    .withMessage("Vous devez saisir la confirmation du mot de passe.")
     .custom(async (val, { req }) => {
       const user = await User.findById(req.params.id);
       if (!user) {
-        throw new Error(`There is no profile for this id : ${req.params.id}`);
+        throw new Error(`Il n'y a pas de profil pour cet identifiant: ${req.params.id}`);
       }
       // 1) Verify password confirm
       if (val !== req.body.password) {
-        throw new Error("Password Confirmation incorrect");
+        throw new Error("Confirmez le mot de passe incorrect.");
       }
       // 2) Verify current password
       const isCorrectPassword = await bcrypt.compare(
@@ -217,7 +217,7 @@ exports.updateProfilePwdValidator = [
         user.password
       );
       if (!isCorrectPassword) {
-        throw new Error("Incorrect current password");
+        throw new Error("Le mot de passe actuel incorrect.");
       }
 
       return true;

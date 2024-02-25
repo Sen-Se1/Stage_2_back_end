@@ -6,7 +6,7 @@ const affectationSchema = new mongoose.Schema(
     cin: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Etudiant", // Reference to Edudiant collection
-      required: [true, 'Cin est obligatoire.'],
+      required: [true, 'CIN est obligatoire.'],
     },
     codeS: {
       type: mongoose.Schema.Types.ObjectId,

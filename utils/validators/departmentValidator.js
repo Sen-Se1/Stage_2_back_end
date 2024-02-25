@@ -5,15 +5,15 @@ const { isStringAllSpaces } = require("../customValidator");
 exports.createDepartmentValidator = [
   check("codeD")
     .notEmpty()
-    .withMessage("Department code required")
+    .withMessage("Le code de département est obligatoire.")
     .isLength({ min: 2 })
-    .withMessage("Too short department code")
+    .withMessage("Le code de département trop court.")
     .isAlphanumeric()
-    .withMessage("Department code must contain only letters and numbers")
+    .withMessage("Le code de département doit contenir uniquement des lettres et des chiffres.")
     .custom((val) => {
       if (isStringAllSpaces(val)) {
         return Promise.reject(
-          new Error("Department code must not be all spaces")
+          new Error("Le code de département ne doit pas être composé d'espaces.")
         );
       }
       return true;
@@ -21,11 +21,11 @@ exports.createDepartmentValidator = [
 
   check("libelle")
     .notEmpty()
-    .withMessage("Departemnt label required")
+    .withMessage("La libelle de département est obligatoire.")
     .custom((val) => {
       if (isStringAllSpaces(val)) {
         return Promise.reject(
-          new Error("Departemnt label must not be all spaces")
+          new Error("La libelle de département ne doit pas être composé d'espaces.")
         );
       }
       return true;
@@ -35,25 +35,25 @@ exports.createDepartmentValidator = [
 ];
 
 exports.getByIdDepartmentValidator = [
-  check("id").isMongoId().withMessage("Invalid department id format"),
+  check("id").isMongoId().withMessage("Le format d'identifiant de code départemental est invalide."),
 
   validatorMiddleware,
 ];
 
 exports.updateDepartmentValidator = [
-  check("id").isMongoId().withMessage("Invalid department id format"),
+  check("id").isMongoId().withMessage("Le format d'identifiant de code départemental est invalide."),
 
   check("codeD")
     .notEmpty()
-    .withMessage("Department code required")
+    .withMessage("Le code de département est obligatoire.")
     .isLength({ min: 2 })
-    .withMessage("Too short department code")
+    .withMessage("Le code de département trop court.")
     .isAlphanumeric()
-    .withMessage("Department code must contain only letters and numbers")
+    .withMessage("Le code de département doit contenir uniquement des lettres et des chiffres.")
     .custom((val) => {
       if (isStringAllSpaces(val)) {
         return Promise.reject(
-          new Error("Department code must not be all spaces")
+          new Error("Le code de département ne doit pas être composé d'espaces.")
         );
       }
       return true;
@@ -61,11 +61,11 @@ exports.updateDepartmentValidator = [
 
   check("libelle")
     .notEmpty()
-    .withMessage("Departemnt label required")
+    .withMessage("La libelle de département est obligatoire.")
     .custom((val) => {
       if (isStringAllSpaces(val)) {
         return Promise.reject(
-          new Error("Departemnt label must not be all spaces")
+          new Error("La libelle de département ne doit pas être composé d'espaces.")
         );
       }
       return true;
@@ -75,7 +75,7 @@ exports.updateDepartmentValidator = [
 ];
 
 exports.deleteDepartmentValidator = [
-  check("id").isMongoId().withMessage("Invalid department id format"),
+  check("id").isMongoId().withMessage("Le format d'identifiant de code départemental est invalide."),
 
   validatorMiddleware,
 ];

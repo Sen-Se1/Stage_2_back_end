@@ -7,10 +7,10 @@ const etudiantSchema = new mongoose.Schema(
   {
     cin: {
       type: String,
-      unique: [true, 'Cin doit être unique.'],
-      required: [true, 'Cin est obligatoire.'],
-      minlength: [8, 'Cin trop court.'],
-      maxlength: [8, 'Cin trop long.'],
+      unique: [true, 'CIN doit être unique.'],
+      required: [true, 'CIN est obligatoire.'],
+      minlength: [8, 'CIN trop court.'],
+      maxlength: [8, 'CIN trop long.'],
     },
     nom: {
       type: String,

@@ -5,9 +5,9 @@ const { isStringAllSpaces } = require("../customValidator");
 exports.addAdminModValidator = [
   check("username")
     .notEmpty()
-    .withMessage("Username required")
+    .withMessage("Le format d'identifiant d'affectation est invalide.")
     .isLength({ min: 3 })
-    .withMessage("Too short username")
+    .withMessage("Le nom d'utilisateur trop court.")
     .isAlphanumeric()
     .withMessage("Username must contain only letters and numbers")
     .custom((val) => {
@@ -83,9 +83,9 @@ exports.updateAdminModValidator = [
 
   check("username")
     .notEmpty()
-    .withMessage("Username required")
+    .withMessage("Le format d'identifiant d'affectation est invalide.")
     .isLength({ min: 3 })
-    .withMessage("Too short username")
+    .withMessage("Le nom d'utilisateur trop court.")
     .isAlphanumeric()
     .withMessage("Username must contain only letters and numbers")
     .custom((val) => {

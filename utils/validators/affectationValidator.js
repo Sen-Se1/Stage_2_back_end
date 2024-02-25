@@ -7,33 +7,37 @@ const Stage = require("../../models/stageModel");
 exports.createAffectationValidator = [
   check("cin")
     .isMongoId()
-    .withMessage("Invalid cin id format")
+    .withMessage("Le format d'identifiant CIN est invalide.")
     .custom((val) =>
       Etudiant.findById({ _id: val }).then((etudiant) => {
         if (!etudiant) {
-          return Promise.reject(new Error(`No student for this id : ${val}`));
+          return Promise.reject(
+            new Error(`Aucun étudiant pour cet identifiant : ${val}`)
+          );
         }
       })
     ),
 
   check("codeS")
     .isMongoId()
-    .withMessage("Invalid stage code id format")
+    .withMessage("Le format d'identifiant de code de stage est invalide.")
     .custom((val) =>
       Stage.findById({ _id: val }).then((stage) => {
         if (!stage) {
-          return Promise.reject(new Error(`No stage for this id : ${val}`));
+          return Promise.reject(
+            new Error(`Aucune stage pour cet identifiant : ${val}`)
+          );
         }
       })
     ),
 
   check("lieuS")
     .notEmpty()
-    .withMessage("Stage location required")
+    .withMessage("Le lieu de stage est obligatoire.")
     .custom((val) => {
       if (isStringAllSpaces(val)) {
         return Promise.reject(
-          new Error("Stage location must not be all spaces")
+          new Error("Le lieu de stage ne doit pas être composé d'espaces.")
         );
       }
       return true;
@@ -41,38 +45,42 @@ exports.createAffectationValidator = [
 
   check("codeRap")
     .notEmpty()
-    .withMessage("Rapport code required")
+    .withMessage("Le code de rapport est obligatoire.")
     .isLength({ min: 3 })
-    .withMessage("Too short rapport code")
+    .withMessage("Le code de rapport trop court.")
     .isAlphanumeric()
-    .withMessage("Rapport code must contain only letters and numbers")
+    .withMessage(
+      "Le code de rapport doit contenir uniquement des lettres et des chiffres."
+    )
     .custom((val) => {
       if (isStringAllSpaces(val)) {
-        return Promise.reject(new Error("Rapport code must not be all spaces"));
+        return Promise.reject(
+          new Error("Le code de rapport ne doit pas être composé d'espaces.")
+        );
       }
       return true;
     }),
 
   check("dateD")
     .notEmpty()
-    .withMessage("Start date required")
+    .withMessage("La date de début est obligatoire.")
     .isDate()
     .withMessage(
-      "Invalid start date format , only accept 'YYYY/MM/DD' or 'YYYY-MM-DD'"
+      "Le format de date de début est invalide. Acceptez uniquement 'AAAA/MM/JJ' ou 'AAAA-MM-JJ'."
     ),
 
   check("dateF")
     .notEmpty()
-    .withMessage("End date required")
+    .withMessage("La date de fin est obligatoire.")
     .isDate()
     .withMessage(
-      "Invalid end date format , only accept 'YYYY/MM/DD' or 'YYYY-MM-DD'"
+      "Le format de date de fin est invalide. Acceptez uniquement 'AAAA/MM/JJ' ou 'AAAA-MM-JJ'."
     )
     .custom((val, { req }) => {
       if (new Date(req.body.dateD) >= new Date(val)) {
         return Promise.reject(
           new Error(
-            `The date 'end date: ${val}' must be greater than 'start date: ${req.body.dateD}' `
+            `La date de fin : ${val} doit être supérieure à la date de début : ${req.body.dateD}. `
           )
         );
       }
@@ -83,42 +91,46 @@ exports.createAffectationValidator = [
 ];
 
 exports.getByIdAffectationValidator = [
-  check("id").isMongoId().withMessage("Invalid assignment id format"),
+  check("id").isMongoId().withMessage("Le format d'identifiant d'affectation est invalide."),
 
   validatorMiddleware,
 ];
 
 exports.updateAffectationValidator = [
-  check("id").isMongoId().withMessage("Invalid assignment id format"),
+  check("id").isMongoId().withMessage("Le format d'identifiant d'affectation est invalide."),
   check("cin")
     .isMongoId()
-    .withMessage("Invalid cin id format")
+    .withMessage("Le format d'identifiant CIN est invalide.")
     .custom((val) =>
       Etudiant.findById({ _id: val }).then((etudiant) => {
         if (!etudiant) {
-          return Promise.reject(new Error(`No student for this id : ${val}`));
+          return Promise.reject(
+            new Error(`Aucun étudiant pour cet identifiant : ${val}`)
+          );
         }
       })
     ),
 
   check("codeS")
     .isMongoId()
-    .withMessage("Invalid stage code id format")
+    .withMessage("Le format d'identifiant de code de stage est invalide.")
     .custom((val) =>
       Stage.findById({ _id: val }).then((stage) => {
         if (!stage) {
-          return Promise.reject(new Error(`No stage for this id : ${val}`));
+          return Promise.reject(
+            new Error(`Aucune stage pour cet identifiant : ${val}`)
+          );
         }
       })
     ),
 
   check("lieuS")
     .notEmpty()
-    .withMessage("Stage location required")
+    .withMessage("Le lieu de stage est obligatoire.")
     .custom((val) => {
       if (isStringAllSpaces(val)) {
         return Promise.reject(
-          new Error("Stage location must not be all spaces")
+          new Error("Le lieu de stage ne doit pas être composé d'espaces.")
         );
       }
       return true;
@@ -126,38 +138,42 @@ exports.updateAffectationValidator = [
 
   check("codeRap")
     .notEmpty()
-    .withMessage("Rapport code required")
+    .withMessage("Le code de rapport est obligatoire.")
     .isLength({ min: 3 })
-    .withMessage("Too short rapport code")
+    .withMessage("Le code de rapport trop court.")
     .isAlphanumeric()
-    .withMessage("Rapport code must contain only letters and numbers")
+    .withMessage(
+      "Le code de rapport doit contenir uniquement des lettres et des chiffres."
+    )
     .custom((val) => {
       if (isStringAllSpaces(val)) {
-        return Promise.reject(new Error("Rapport code must not be all spaces"));
+        return Promise.reject(
+          new Error("Le code de rapport ne doit pas être composé d'espaces.")
+        );
       }
       return true;
     }),
 
   check("dateD")
     .notEmpty()
-    .withMessage("start date required")
+    .withMessage("la date de début est obligatoire.")
     .isDate()
     .withMessage(
-      "Invalid start date format , only accept 'YYYY/MM/DD' or 'YYYY-MM-DD'"
+      "Le format de date de début est invalide. Acceptez uniquement 'AAAA/MM/JJ' ou 'AAAA-MM-JJ'."
     ),
 
   check("dateF")
     .notEmpty()
-    .withMessage("end date required")
+    .withMessage("la date de fin est obligatoire.")
     .isDate()
     .withMessage(
-      "Invalid end date format , only accept 'YYYY/MM/DD' or 'YYYY-MM-DD'"
+      "Le format de date de fin est invalide. Acceptez uniquement 'AAAA/MM/JJ' ou 'AAAA-MM-JJ'."
     )
     .custom((val, { req }) => {
       if (new Date(req.body.dateD) >= new Date(val)) {
         return Promise.reject(
           new Error(
-            `The date 'end date: ${val}' must be greater than 'start date: ${req.body.dateD}' `
+            `La date de fin : ${val} doit être supérieure à la date de début : ${req.body.dateD}. `
           )
         );
       }
@@ -168,7 +184,7 @@ exports.updateAffectationValidator = [
 ];
 
 exports.deleteAffectationValidator = [
-  check("id").isMongoId().withMessage("Invalid assignment id format"),
+  check("id").isMongoId().withMessage("Le format d'identifiant d'affectation est invalide."),
 
   validatorMiddleware,
 ];

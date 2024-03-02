@@ -16,7 +16,7 @@ exports.createAffectation = asyncHandler(async (req, res, next) => {
     } else {
         newCodeRap = 1; // If there are no documents, start with 1
     }
-    
+
     const affectation = await Affectation.create({
         cin: req.body.cin,
         codeS: req.body.codeS,
@@ -61,7 +61,7 @@ exports.updateAffectation = asyncHandler(async (req, res, next) => {
         cin: req.body.cin,
         codeS: req.body.codeS,
         lieuS: req.body.lieuS.toUpperCase(),
-        codeRap: req.body.codeRap.toUpperCase(),
+        // codeRap: req.body.codeRap.toUpperCase(),
         dateD: req.body.dateD,
         dateF: req.body.dateF,
     };

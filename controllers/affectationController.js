@@ -24,7 +24,7 @@ exports.createAffectation = asyncHandler(async (req, res, next) => {
 exports.getAllAffectation = asyncHandler(async (req, res, next) => {
     // Build and Execute query
     const affectationCount = await Affectation.countDocuments();
-    const affectations = await Affectation.find().populate('cin', 'cin').populate('codeS', 'codeS');
+    const affectations = await Affectation.find().populate('cin', 'cin nom prenom').populate('codeS', 'codeS');
     res.status(200).json({ result: affectationCount, data: affectations });
 });
 

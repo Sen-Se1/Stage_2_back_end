@@ -7,11 +7,21 @@ const Affectation = require('../models/affectationModel');
 // @route   POST /affectation
 // @access  private
 exports.createAffectation = asyncHandler(async (req, res, next) => {
+    // Find the highest codeRap value
+    const highestCodeRap = await Affectation.findOne().sort({ codeRap: -1 });
+
+    let newCodeRap;
+    if (highestCodeRap) {
+        newCodeRap = highestCodeRap.codeRap + 1; // Increment the highest codeRap value by 1
+    } else {
+        newCodeRap = 1; // If there are no documents, start with 1
+    }
+    
     const affectation = await Affectation.create({
         cin: req.body.cin,
         codeS: req.body.codeS,
         lieuS: req.body.lieuS.toUpperCase(),
-        codeRap: req.body.codeRap.toUpperCase(),
+        codeRap: newCodeRap,
         dateD: req.body.dateD,
         dateF: req.body.dateF,
     });

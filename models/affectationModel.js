@@ -19,11 +19,9 @@ const affectationSchema = new mongoose.Schema(
       trim: true,
     },
     codeRap: {
-      type: String,
+      type: Number,
       required: [true, 'Le code de rapport est obligatoire.'],
-      minlength: [3, 'Le code de rapport trop court.'],
       unique: [true, 'Le code de rapport doit être unique.'],
-      trim: true,
     },
     dateD: {
       type: Date,

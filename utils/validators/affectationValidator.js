@@ -43,24 +43,6 @@ exports.createAffectationValidator = [
       return true;
     }),
 
-  check("codeRap")
-    .notEmpty()
-    .withMessage("Le code de rapport est obligatoire.")
-    .isLength({ min: 3 })
-    .withMessage("Le code de rapport trop court.")
-    .isAlphanumeric()
-    .withMessage(
-      "Le code de rapport doit contenir uniquement des lettres et des chiffres."
-    )
-    .custom((val) => {
-      if (isStringAllSpaces(val)) {
-        return Promise.reject(
-          new Error("Le code de rapport ne doit pas être composé d'espaces.")
-        );
-      }
-      return true;
-    }),
-
   check("dateD")
     .notEmpty()
     .withMessage("La date de début est obligatoire.")
@@ -136,23 +118,23 @@ exports.updateAffectationValidator = [
       return true;
     }),
 
-  check("codeRap")
-    .notEmpty()
-    .withMessage("Le code de rapport est obligatoire.")
-    .isLength({ min: 3 })
-    .withMessage("Le code de rapport trop court.")
-    .isAlphanumeric()
-    .withMessage(
-      "Le code de rapport doit contenir uniquement des lettres et des chiffres."
-    )
-    .custom((val) => {
-      if (isStringAllSpaces(val)) {
-        return Promise.reject(
-          new Error("Le code de rapport ne doit pas être composé d'espaces.")
-        );
-      }
-      return true;
-    }),
+  // check("codeRap")
+  //   .notEmpty()
+  //   .withMessage("Le code de rapport est obligatoire.")
+  //   .isLength({ min: 3 })
+  //   .withMessage("Le code de rapport trop court.")
+  //   .isAlphanumeric()
+  //   .withMessage(
+  //     "Le code de rapport doit contenir uniquement des lettres et des chiffres."
+  //   )
+  //   .custom((val) => {
+  //     if (isStringAllSpaces(val)) {
+  //       return Promise.reject(
+  //         new Error("Le code de rapport ne doit pas être composé d'espaces.")
+  //       );
+  //     }
+  //     return true;
+  //   }),
 
   check("dateD")
     .notEmpty()

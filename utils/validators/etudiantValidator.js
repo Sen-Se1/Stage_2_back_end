@@ -149,7 +149,7 @@ exports.createEtudiantValidator = [
     .notEmpty()
     .withMessage("CIN est obligatoire.")
     .isLength({ min: 8, max: 8 })
-    .withMessage("Cin seulement 8 chiffres est obligatoire.")
+    .withMessage("CIN seulement 8 chiffres est obligatoire.")
     .isInt()
     .withMessage("CIN doit être un nombre."),
 

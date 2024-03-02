@@ -7,7 +7,7 @@ const Stage = require("../../models/stageModel");
 exports.createAffectationValidator = [
   check("cin")
     .isMongoId()
-    .withMessage("Le format d'identifiant CIN est invalide.")
+    .withMessage("Le format de CIN est invalide.")
     .custom((val) =>
       Etudiant.findById({ _id: val }).then((etudiant) => {
         if (!etudiant) {
@@ -100,7 +100,7 @@ exports.updateAffectationValidator = [
   check("id").isMongoId().withMessage("Le format d'identifiant d'affectation est invalide."),
   check("cin")
     .isMongoId()
-    .withMessage("Le format d'identifiant CIN est invalide.")
+    .withMessage("Le format de CIN est invalide.")
     .custom((val) =>
       Etudiant.findById({ _id: val }).then((etudiant) => {
         if (!etudiant) {

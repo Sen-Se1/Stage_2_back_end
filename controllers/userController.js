@@ -76,7 +76,7 @@ exports.forgotPassword = asyncHandler(async (req, res, next) => {
 
   // 3) Send the reset code via email
   // const resetUrl = `${req.protocol}://${req.get('host')}/user/resetPassword/${resetToken}`;
-  const resetUrl = `${req.protocol}://localhost:4200/reset-password/${resetToken}`;
+  const resetUrl = `${req.protocol}://stage-2-front-end.vercel.app/reset-password/${resetToken}`;
   const message = `<h4>Salut ${user.username}</h4>Nous avons reçu une demande de réinitialisation du mot de passe de votre compte du tableau de bord d'administration. 
                   Veuillez utiliser le lien ci-dessous pour réinitialiser votre mot de passe <br><a href='${resetUrl}'>Votre lien</a><br>
                   Ce lien de réinitialisation du mot de passe ne sera valide que pendant 5 minutes. <br> Merci de nous aider à sécuriser votre compte.`;
